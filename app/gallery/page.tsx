@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import ChapterLayout from "@/components/ChapterLayout";
 import ChapterOpener from "@/components/ChapterOpener";
 import { gallery } from "@/lib/content";
@@ -39,6 +40,23 @@ export default function GalleryPage() {
             </figure>
           ))}
         </div>
+      </section>
+
+      {/* Guest gallery call-to-action */}
+      <section className="mx-auto max-w-issue px-5 pb-12 pt-10 text-center md:px-8">
+        <span aria-hidden className="mx-auto block h-px w-14 bg-accent" />
+        <p className="mt-8 font-serif text-2xl italic text-ink-soft md:text-3xl">
+          Were you at the wedding?
+        </p>
+        <Link
+          href="/guest-gallery"
+          className="group mt-6 inline-flex items-center gap-3 border border-ink bg-ink px-8 py-4 font-sans text-eyebrow uppercase tracking-eyebrow text-paper transition-colors hover:border-accent hover:bg-accent"
+        >
+          Share Your Photos
+          <span className="transition-transform group-hover:translate-x-1">
+            &rarr;
+          </span>
+        </Link>
       </section>
     </ChapterLayout>
   );
