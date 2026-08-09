@@ -17,11 +17,12 @@ export const couple = {
   /** Monogram shown on the cover and in the running header. */
   monogram: "A / E",
   hashtag: "#AmaraAndElias",
-  /** The wedding day — drives the countdown. ISO 8601 with timezone. */
-  weddingDate: "2026-11-14T14:00:00+01:00",
+  /** The wedding day — drives the countdown. ISO 8601 with timezone.
+   *  TODO: replace with the real date/time from the invitation card. */
+  weddingDate: "2026-11-14T14:00:00+00:00",
   /** The same day, split for the large stacked date on the contents page. */
   weddingDay: { day: "Saturday", date: "14 November", year: "2026" },
-  city: "Lisbon, Portugal",
+  city: "London, United Kingdom",
   year: "2026",
   /** Issue label shown on the cover masthead. */
   issueLabel: "The Wedding Issue",
@@ -143,49 +144,51 @@ export const story = {
 
 export const details = {
   subtitle: "Everything you need to be there, and to be comfortable once you are.",
-  /** The two events, each with its own countdown target and feature block. */
+  /** The two events, each with its own countdown target and feature block.
+   *  TODO: replace venues, addresses, times and dress code with the details
+   *  printed on the invitation card. */
   events: [
     {
       key: "ceremony",
       label: "The Ceremony",
-      target: "2026-11-14T14:00:00+01:00",
+      target: "2026-11-14T14:00:00+00:00",
       eyebrow: "The Ceremony",
       title: "The vows",
       year: "2:00 PM",
-      body: "We'll say the important words in the early afternoon, under the trees in the convent garden. Arrive a little early — the gates close for the ceremony, and we'd hate for you to miss the beginning.",
+      body: "We'll say the important words in the early afternoon. Arrive a little early — the doors close for the ceremony, and we'd hate for you to miss the beginning.",
       photo: {
         src: "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=1400&q=80",
-        alt: "A garden set for an outdoor ceremony",
-        caption: "Chapter 02 · Convento dos Cardaes",
+        alt: "A venue set for a wedding ceremony",
+        caption: "Chapter 02 · The Ceremony",
         width: 1400,
         height: 933,
       } as Photo,
       cards: [
         { label: "Date & Time", value: "Saturday 14 November 2026", detail: "2:00 PM — arrive by 1:30" },
-        { label: "Venue", value: "Convento dos Cardaes", detail: "Rua do Século 123, Lisbon" },
-        { label: "Dress Code", value: "Garden formal", detail: "Soft heels for grass" },
+        { label: "Venue", value: "Ceremony venue", detail: "Central London — TBC" },
+        { label: "Dress Code", value: "Formal", detail: "As per the invitation" },
       ],
       imageSide: "left" as const,
     },
     {
       key: "reception",
       label: "The Reception",
-      target: "2026-11-14T18:00:00+01:00",
+      target: "2026-11-14T18:00:00+00:00",
       eyebrow: "The Reception",
       title: "The long table",
       year: "6:00 PM",
-      body: "Dinner, toasts and dancing follow at a converted riverside warehouse a short drive away. Shuttles will run from the ceremony; details to follow closer to the day.",
+      body: "Dinner, toasts and dancing follow a short journey away. Travel details between the ceremony and reception will follow closer to the day.",
       photo: {
         src: "https://images.unsplash.com/photo-1470124182917-cc6e71b22ecc?w=1400&q=80",
         alt: "A long candlelit dinner table set for a reception",
-        caption: "Chapter 02 · Cais 18, by the river",
+        caption: "Chapter 02 · The Reception",
         width: 1400,
         height: 933,
       } as Photo,
       cards: [
         { label: "Reception", value: "6:00 PM till late", detail: "Dinner at 7:30" },
-        { label: "Venue", value: "Cais 18", detail: "Doca de Alcântara, Lisbon" },
-        { label: "Getting There", value: "Shuttle provided", detail: "Departs the ceremony at 4:45" },
+        { label: "Venue", value: "Reception venue", detail: "London — TBC" },
+        { label: "Getting There", value: "Details to follow", detail: "From the ceremony" },
       ],
       imageSide: "right" as const,
     },
@@ -196,13 +199,13 @@ export const details = {
     { label: "The Dress Code", detail: "Garden formal" },
   ],
   timeline: [
-    { date: "14 Nov", event: "Ceremony", time: "2:00 PM", place: "Convento dos Cardaes" },
-    { date: "14 Nov", event: "Cocktails", time: "4:00 PM", place: "The cloister" },
-    { date: "14 Nov", event: "Shuttle to reception", time: "4:45 PM", place: "From the ceremony" },
-    { date: "14 Nov", event: "Reception & dinner", time: "6:00 PM", place: "Cais 18" },
+    { date: "14 Nov", event: "Ceremony", time: "2:00 PM", place: "Ceremony venue" },
+    { date: "14 Nov", event: "Cocktails", time: "4:00 PM", place: "Drinks reception" },
+    { date: "14 Nov", event: "Move to reception", time: "4:45 PM", place: "From the ceremony" },
+    { date: "14 Nov", event: "Reception & dinner", time: "6:00 PM", place: "Reception venue" },
     { date: "14 Nov", event: "Dancing", time: "9:00 PM", place: "Till late" },
   ],
-  mapLink: "https://maps.google.com/?q=Convento+dos+Cardaes+Lisbon",
+  mapLink: "https://maps.google.com/?q=London", // TODO: point at the real venue from the card
   /** Programme PDF (host on Blob) and an optional live-stream link. */
   programme: {
     pdfHref: "#", // TODO: upload the programme PDF and link it here
@@ -211,18 +214,18 @@ export const details = {
   travel: [
     {
       label: "By Air",
-      title: "Lisbon Airport (LIS)",
-      body: "Humberto Delgado Airport is 20 minutes from the city centre by taxi. Most European capitals are a short direct flight away.",
+      title: "Heathrow & Gatwick",
+      body: "Both airports connect to central London in under an hour by train — the Heathrow Express and the Gatwick Express run all day. City, Stansted and Luton are alternatives.",
     },
     {
       label: "Where to Stay",
-      title: "Chiado & Príncipe Real",
-      body: "Both neighbourhoods put you within walking distance of the ceremony. We've held a small block of rooms — see the FAQ for the code.",
+      title: "Close to the venue",
+      body: "We'll recommend a few hotels near the venue once details are confirmed. We may hold a small block of rooms — see the FAQ for the code.",
     },
     {
       label: "Getting Around",
-      title: "Trams, taxis & feet",
-      body: "Lisbon is a walking city built on hills. Comfortable shoes by day; ride-hailing is cheap and plentiful by night.",
+      title: "Tube, buses & black cabs",
+      body: "London runs on the Underground — tap in with a contactless card. Buses are cheap, black cabs and ride-hailing are everywhere at night.",
     },
   ],
 };
@@ -235,11 +238,20 @@ export const registry = {
   subtitle: "Your presence is the gift. If you'd like to give more, here's where.",
   intro:
     "We're lucky to already share a home, so more than anything we'd love your company on the day. For those who've asked, here's a cash gift toward our next chapter, a short wish list of everyday things, and a guest book to sign.",
-  /** Cash gift — preset tiers in the couple's currency. */
+  /** Cash gift — given by bank transfer (no payment account needed).
+   *  TODO: replace bankDetails with the couple's real account details.
+   *  To switch to a honeymoon-fund link or Stripe instead, see the note in
+   *  components/BankGift.tsx. */
   cashGift: {
-    currency: "€",
+    currency: "£",
     tiers: [50, 100, 250],
-    note: "Contributions go toward two weeks in Japan — trains, ryokan, and far too much ramen.",
+    note: "Contributions go toward our honeymoon — the trip we've been dreaming up.",
+    bankDetails: {
+      accountName: "A & E Wedding",
+      sortCode: "00-00-00",
+      accountNumber: "00000000",
+      reference: "Your name",
+    },
   },
   /** Wish list — everyday practical items read better than a formal registry. */
   wishList: [
@@ -369,7 +381,7 @@ export const faq = {
       pairs: [
         {
           q: "Where should I stay?",
-          a: "Chiado and Príncipe Real are both walkable to the ceremony. We've reserved a room block at a nearby hotel — email us for the code.",
+          a: "We'll suggest a few hotels close to the venue once it's confirmed. If we hold a room block, we'll share the code here — or email us for it.",
         },
       ],
     },
@@ -377,9 +389,9 @@ export const faq = {
   contact: {
     email: "hello@amara-and-elias.com",
     coordinators: [
-      { name: "Sofia Mendes", role: "Day-of Coordinator", phone: "+351 912 000 000" },
-      { name: "Daniel Okoye", role: "Best Man", phone: "+351 912 111 111" },
-      { name: "Ama Boateng", role: "Maid of Honour", phone: "+351 912 222 222" },
+      { name: "Coordinator name", role: "Day-of Coordinator", phone: "+44 7700 900000" },
+      { name: "Best man name", role: "Best Man", phone: "+44 7700 900111" },
+      { name: "Maid of honour", role: "Maid of Honour", phone: "+44 7700 900222" },
     ],
   },
 };
@@ -399,8 +411,8 @@ export const trivia = {
     },
     {
       q: "Which city are we getting married in?",
-      options: ["Porto", "Madrid", "Lisbon", "Seville"],
-      answer: 2,
+      options: ["Manchester", "London", "Edinburgh", "Bristol"],
+      answer: 1,
     },
     {
       q: "Where are we honeymooning?",

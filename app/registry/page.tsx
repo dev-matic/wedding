@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import ChapterLayout from "@/components/ChapterLayout";
 import ChapterOpener from "@/components/ChapterOpener";
-import AmountPicker from "@/components/AmountPicker";
+import BankGift from "@/components/BankGift";
 import ProductGrid from "@/components/ProductGrid";
 import GuestBook from "@/components/GuestBook";
 import { registry } from "@/lib/content";
@@ -42,7 +42,7 @@ export default function RegistryPage() {
             </h2>
             <p className="mt-4">{registry.cashGift.note}</p>
           </div>
-          <AmountPicker />
+          <BankGift />
         </div>
       </section>
 
