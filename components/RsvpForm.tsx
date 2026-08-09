@@ -10,8 +10,14 @@ const fieldClass =
 const labelClass =
   "font-sans text-eyebrow uppercase tracking-eyebrow text-ink-soft";
 
-/** Attendance form. Posts to /api/rsvp and reports the outcome inline. */
-export default function RsvpForm() {
+type Invitation = { code: string; name: string; seats: number };
+
+/**
+ * Attendance form. Posts to /api/rsvp and reports the outcome inline. When an
+ * `invitation` is passed (from the invitation gate), the name is prefilled and
+ * the party size is capped at the seats reserved for that invitation.
+ */
+export default function RsvpForm({ invitation }: { invitation?: Invitation }) {
   const [status, setStatus] = useState<Status>("idle");
   const [attending, setAttending] = useState<"yes" | "no" | "">("");
   const [message, setMessage] = useState<string>("");
@@ -28,7 +34,7 @@ export default function RsvpForm() {
       const res = await fetch("/api/rsvp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ ...data, code: invitation?.code ?? "" }),
       });
       if (!res.ok) throw new Error("Request failed");
       const json = await res.json();
@@ -81,6 +87,7 @@ export default function RsvpForm() {
             type="text"
             required
             autoComplete="name"
+            defaultValue={invitation?.name ?? ""}
             className={fieldClass}
             placeholder="Your name"
           />
@@ -142,10 +149,13 @@ export default function RsvpForm() {
               <select
                 id="guests"
                 name="guests"
-                defaultValue="1"
+                defaultValue={String(invitation?.seats ?? 1)}
                 className={fieldClass}
               >
-                {[1, 2, 3, 4, 5].map((n) => (
+                {Array.from(
+                  { length: invitation?.seats ?? 5 },
+                  (_, i) => i + 1,
+                ).map((n) => (
                   <option key={n} value={n}>
                     {n}
                   </option>

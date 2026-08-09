@@ -1,107 +1,96 @@
 /**
- * The issue's table of contents. Order here drives page numbers and the
- * prev/next navigation through the magazine. Drop a chapter and the rest
- * renumber automatically; the guest gallery sits outside the numbering
- * (marked with a symbol instead of a chapter number).
+ * The issue's running order. This single sequence drives page numbers and the
+ * prev/next navigation through the magazine.
+ *
+ * Two kinds of pages appear here:
+ *  - Numbered chapters carry a `chapterNumber` ("01") and a `pageNumber`.
+ *  - Additive pages (the guest gallery, the trivia) are unnumbered: both
+ *    `chapterNumber` and `pageNumber` are null, and they do NOT consume a
+ *    page number — so FAQ stays Page 07 even though the guest gallery sits
+ *    before it.
+ *
+ * The last page loops back to Contents rather than dead-ending.
  */
 
 export type Chapter = {
-  /** Route, e.g. "/story". */
+  /** Route, e.g. "/details". */
   href: string;
-  /** Zero-padded chapter number, e.g. "01". Null = unnumbered (guest gallery). */
+  /** Zero-padded chapter number, e.g. "02". Null = unnumbered / not a chapter. */
   chapterNumber: string | null;
-  /** Short label shown in the running header, e.g. "Details". */
+  /** Short label shown in headers/footers, e.g. "Details". */
   chapterLabel: string;
   /** One-line description for the contents page. */
   description: string;
-};
-
-/** Numbered chapters, in reading order. Contents is Page 01; chapters follow. */
-export const chapters: Chapter[] = [
-  {
-    href: "/story",
-    chapterNumber: "01",
-    chapterLabel: "The Story",
-    description: "How we met, and the question at the end of the pier.",
-  },
-  {
-    href: "/details",
-    chapterNumber: "02",
-    chapterLabel: "The Details",
-    description: "Dates, venues, dress code and how to find us.",
-  },
-  {
-    href: "/registry",
-    chapterNumber: "03",
-    chapterLabel: "The Registry",
-    description: "Your presence, and a few things if you'd like to give more.",
-  },
-  {
-    href: "/rsvp",
-    chapterNumber: "04",
-    chapterLabel: "RSVP",
-    description: "Kindly reply, and tell us how to feed you well.",
-  },
-  {
-    href: "/gallery",
-    chapterNumber: "05",
-    chapterLabel: "The Gallery",
-    description: "A few frames from the years that led here.",
-  },
-  {
-    href: "/faq",
-    chapterNumber: "06",
-    chapterLabel: "The Questions",
-    description: "The things guests ask us most.",
-  },
-  {
-    href: "/trivia",
-    chapterNumber: "07",
-    chapterLabel: "The Trivia",
-    description: "A gentle test — how well do you know us?",
-  },
-];
-
-/** The unnumbered guest gallery, referenced by the contents page and nav. */
-export const guestGalleryChapter: Chapter = {
-  href: "/guest-gallery",
-  chapterNumber: null,
-  chapterLabel: "Guest Gallery",
-  description: "Add your own frames to the shared album.",
-};
-
-/** The full navigable sequence: contents → chapters → guest gallery. */
-const sequence: Chapter[] = [
-  {
-    href: "/contents",
-    chapterNumber: null,
-    chapterLabel: "Contents",
-    description: "The issue at a glance.",
-  },
-  ...chapters,
-  guestGalleryChapter,
-];
-
-export type PageNav = {
-  /** Page number shown in the footer, e.g. "03". Page 01 is Contents. */
-  pageNumber: string;
-  prev: { href: string; label: string } | null;
-  next: { href: string; label: string } | null;
+  /** Zero-padded page number for the footer. Null = no page number shown. */
+  pageNumber: string | null;
 };
 
 /**
- * Resolve prev/next links and a running page number for a given route.
- * Page numbers count from Contents (Page 01) through the sequence.
+ * Full running order, cover first. The cover has no running shell of its own,
+ * but it lets Contents point back to it. Page numbers are assigned only to
+ * numbered pages; Contents is Page 01.
+ */
+const sequence: Chapter[] = [
+  { href: "/", chapterNumber: null, chapterLabel: "Cover", description: "", pageNumber: null },
+  { href: "/contents", chapterNumber: null, chapterLabel: "Contents", description: "The issue at a glance.", pageNumber: "01" },
+  { href: "/story", chapterNumber: "01", chapterLabel: "The Story", description: "How we met, told as a timeline.", pageNumber: "02" },
+  { href: "/details", chapterNumber: "02", chapterLabel: "The Details", description: "Events, venues, dress code and travel.", pageNumber: "03" },
+  { href: "/registry", chapterNumber: "03", chapterLabel: "The Registry", description: "A cash gift, a wish list, and the guest book.", pageNumber: "04" },
+  { href: "/rsvp", chapterNumber: "04", chapterLabel: "RSVP", description: "Find your invitation and reply.", pageNumber: "05" },
+  { href: "/gallery", chapterNumber: "05", chapterLabel: "The Gallery", description: "A few frames from the years that led here.", pageNumber: "06" },
+  { href: "/guest-gallery", chapterNumber: null, chapterLabel: "Guest Gallery", description: "Add your own frames to the shared album.", pageNumber: null },
+  { href: "/faq", chapterNumber: "06", chapterLabel: "The Questions", description: "Grouped answers, and who to call on the day.", pageNumber: "07" },
+  { href: "/trivia", chapterNumber: "07", chapterLabel: "The Trivia", description: "A gentle quiz, with a little prize.", pageNumber: null },
+];
+
+/** Every page after Contents — used to render the contents index in order. */
+export const chapters: Chapter[] = sequence.filter(
+  (c) => c.href !== "/" && c.href !== "/contents",
+);
+
+/** The unnumbered guest gallery, for any code that needs it by name. */
+export const guestGalleryChapter: Chapter = sequence.find(
+  (c) => c.href === "/guest-gallery",
+)!;
+
+/** How many numbered chapters there are — for "a celebration in N chapters". */
+export const numberedChapterCount = sequence.filter(
+  (c) => c.chapterNumber !== null,
+).length;
+
+export type NavLink = { href: string; label: string };
+
+export type PageNav = {
+  /** Page number shown in the footer, or null when the page is unnumbered. */
+  pageNumber: string | null;
+  /** Short label for the footer centre when there is no page number. */
+  centreLabel: string;
+  prev: NavLink | null;
+  next: NavLink | null;
+};
+
+/**
+ * Resolve prev/next links, a page number, and a footer-centre label for a
+ * route. The final page's `next` loops back to Contents.
  */
 export function getPageNav(href: string): PageNav {
   const index = sequence.findIndex((c) => c.href === href);
-  const prev = index > 0 ? sequence[index - 1] : null;
-  const next =
-    index >= 0 && index < sequence.length - 1 ? sequence[index + 1] : null;
+  const current = sequence[index];
+
+  const prevChapter = index > 0 ? sequence[index - 1] : null;
+  const isLast = index === sequence.length - 1;
+  const nextChapter = isLast
+    ? sequence.find((c) => c.href === "/contents")!
+    : sequence[index + 1] ?? null;
 
   return {
-    pageNumber: String(index + 1).padStart(2, "0"),
-    prev: prev ? { href: prev.href, label: prev.chapterLabel } : null,
-    next: next ? { href: next.href, label: next.chapterLabel } : null,
+    pageNumber: current?.pageNumber ?? null,
+    centreLabel: current?.chapterLabel ?? "",
+    prev: prevChapter
+      ? { href: prevChapter.href, label: prevChapter.chapterLabel }
+      : null,
+    next: nextChapter
+      ? { href: nextChapter.href, label: nextChapter.chapterLabel }
+      : null,
   };
 }

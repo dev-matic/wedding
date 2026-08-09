@@ -14,8 +14,9 @@ type ChapterLayoutProps = {
 
 /**
  * The shared frame every page below the cover wears: a running header with
- * the monogram, chapter marker and next link, and a running footer with
- * prev/next and the page number. Turn the pages like an issue.
+ * the monogram, chapter marker and next link, and a running footer whose
+ * prev/next labels are the destination chapter names in caps. Turn the pages
+ * like an issue; the last page loops back to Contents.
  */
 export default function ChapterLayout({
   chapterNumber,
@@ -23,7 +24,7 @@ export default function ChapterLayout({
   href,
   children,
 }: ChapterLayoutProps) {
-  const { pageNumber, prev, next } = getPageNav(href);
+  const { pageNumber, centreLabel, prev, next } = getPageNav(href);
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -53,12 +54,10 @@ export default function ChapterLayout({
               href={next.href}
               className="hidden font-sans text-eyebrow uppercase tracking-eyebrow text-ink-soft hover:text-accent sm:inline"
             >
-              Next&nbsp;&rarr;
+              Next Chapter&nbsp;&rarr;
             </Link>
           ) : (
-            <span className="hidden font-sans text-eyebrow uppercase tracking-eyebrow text-ink-faint sm:inline">
-              Fin
-            </span>
+            <span className="hidden sm:inline" />
           )}
         </div>
       </header>
@@ -66,39 +65,31 @@ export default function ChapterLayout({
       {/* Chapter body */}
       <main className="flex-1">{children}</main>
 
-      {/* Running footer */}
+      {/* Running footer — labels are the destination chapter names in caps */}
       <footer className="mt-24 border-t border-hairline">
         <div className="mx-auto grid max-w-issue grid-cols-3 items-center gap-2 px-5 py-8 md:px-8">
           <div className="justify-self-start">
             {prev ? (
               <Link
                 href={prev.href}
-                className="group font-sans text-eyebrow uppercase tracking-eyebrow text-ink-soft hover:text-accent"
+                className="font-sans text-eyebrow uppercase tracking-eyebrow text-ink-soft transition-colors hover:text-accent"
               >
-                <span aria-hidden>&larr;</span>{" "}
-                <span className="hidden sm:inline">Previous</span>
-                <span className="block font-serif text-base normal-case tracking-normal text-ink-faint group-hover:text-accent">
-                  {prev.label}
-                </span>
+                <span aria-hidden>&larr;</span>&nbsp;{prev.label}
               </Link>
             ) : null}
           </div>
 
           <p className="justify-self-center text-center font-sans text-eyebrow uppercase tracking-eyebrow text-ink-faint">
-            Page {pageNumber}
+            {pageNumber ? `Page ${pageNumber}` : centreLabel}
           </p>
 
           <div className="justify-self-end text-right">
             {next ? (
               <Link
                 href={next.href}
-                className="group font-sans text-eyebrow uppercase tracking-eyebrow text-ink-soft hover:text-accent"
+                className="font-sans text-eyebrow uppercase tracking-eyebrow text-ink-soft transition-colors hover:text-accent"
               >
-                <span className="hidden sm:inline">Next</span>{" "}
-                <span aria-hidden>&rarr;</span>
-                <span className="block font-serif text-base normal-case tracking-normal text-ink-faint group-hover:text-accent">
-                  {next.label}
-                </span>
+                {next.label}&nbsp;<span aria-hidden>&rarr;</span>
               </Link>
             ) : null}
           </div>

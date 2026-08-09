@@ -9,6 +9,8 @@ type DetailCard = {
 
 type FeatureBlockProps = {
   numeral?: string;
+  /** Optional year shown alongside the eyebrow, e.g. "2021". */
+  year?: string;
   eyebrow: string;
   title: string;
   body: string | string[];
@@ -25,6 +27,7 @@ type FeatureBlockProps = {
  */
 export default function FeatureBlock({
   numeral,
+  year,
   eyebrow,
   title,
   body,
@@ -64,7 +67,10 @@ export default function FeatureBlock({
               {numeral}
             </p>
           ) : null}
-          <p className="eyebrow">{eyebrow}</p>
+          <p className="eyebrow">
+            {year ? <span className="text-ink-faint">{year}&ensp;&middot;&ensp;</span> : null}
+            {eyebrow}
+          </p>
           <h2 className="mt-3 font-display text-display-sm font-medium leading-tight text-ink">
             {title}
           </h2>

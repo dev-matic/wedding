@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import ChapterLayout from "@/components/ChapterLayout";
 import ChapterOpener from "@/components/ChapterOpener";
-import RsvpForm from "@/components/RsvpForm";
+import InvitationGate from "@/components/InvitationGate";
 import { rsvp } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "RSVP",
-  description: "Kindly reply, and tell us how to feed you well.",
+  description: "Find your invitation and reply — tell us if you can make it, and how to feed you well.",
 };
 
 export default function RsvpPage() {
@@ -23,7 +23,7 @@ export default function RsvpPage() {
         <p className="text-center">{rsvp.intro}</p>
       </section>
 
-      <RsvpForm />
+      <InvitationGate demoCode={rsvp.demoCode} />
     </ChapterLayout>
   );
 }

@@ -4,13 +4,15 @@ import ChapterLayout from "@/components/ChapterLayout";
 import ChapterOpener from "@/components/ChapterOpener";
 import FeatureBlock from "@/components/FeatureBlock";
 import NumberedIndex from "@/components/NumberedIndex";
+import Countdown from "@/components/Countdown";
 import Timeline from "@/components/Timeline";
 import InfoGrid from "@/components/InfoGrid";
+import ActionCard from "@/components/ActionCard";
 import { details } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "The Details",
-  description: "Dates, venues, dress code and how to find us.",
+  description: "Events, venues, dress code and travel — everything you need to be there.",
 };
 
 export default function DetailsPage() {
@@ -23,46 +25,48 @@ export default function DetailsPage() {
         subtitle={details.subtitle}
       />
 
-      <NumberedIndex
-        items={[
-          { label: "The Ceremony", detail: "2:00 PM · Garden" },
-          { label: "The Reception", detail: "6:00 PM · Riverside" },
-          { label: "The Dress Code", detail: "Garden formal" },
-        ]}
-      />
+      <NumberedIndex items={details.strip} />
 
-      <FeatureBlock
-        numeral="01"
-        eyebrow={details.ceremony.eyebrow}
-        title={details.ceremony.title}
-        body={details.ceremony.body}
-        photo={details.ceremony.photo}
-        cards={details.ceremony.cards}
-        imageSide="left"
-      />
+      {/* A countdown for each event */}
+      <div className="mx-auto max-w-issue px-5 md:px-8">
+        <hr className="hairline" />
+      </div>
+      {details.events.map((event) => (
+        <Countdown
+          key={event.key}
+          target={event.target}
+          label={`Until the ${event.label.replace(/^The\s+/, "")}`}
+        />
+      ))}
 
-      <FeatureBlock
-        numeral="02"
-        eyebrow={details.reception.eyebrow}
-        title={details.reception.title}
-        body={details.reception.body}
-        photo={details.reception.photo}
-        cards={details.reception.cards}
-        imageSide="right"
-      />
+      {/* A feature block per event, alternating image side */}
+      {details.events.map((event) => (
+        <FeatureBlock
+          key={event.key}
+          year={event.year}
+          eyebrow={event.eyebrow}
+          title={event.title}
+          body={event.body}
+          photo={event.photo}
+          cards={event.cards}
+          imageSide={event.imageSide}
+        />
+      ))}
 
-      <Timeline
-        heading="The Day, Hour by Hour"
-        entries={[
-          { date: "14 Nov", event: "Ceremony", time: "2:00 PM", place: "Convento dos Cardaes" },
-          { date: "14 Nov", event: "Cocktails", time: "4:00 PM", place: "The cloister" },
-          { date: "14 Nov", event: "Shuttle to reception", time: "4:45 PM", place: "From the ceremony" },
-          { date: "14 Nov", event: "Reception & dinner", time: "6:00 PM", place: "Cais 18" },
-          { date: "14 Nov", event: "Dancing", time: "9:00 PM", place: "Till late" },
-        ]}
-      />
+      <Timeline heading="The Day, Hour by Hour" entries={details.timeline} />
 
       <InfoGrid heading="Travel & Stay" cards={details.travel} />
+
+      {/* Programme + live stream */}
+      <section className="mx-auto max-w-issue px-5 py-8 md:px-8">
+        <ActionCard
+          eyebrow="Before the Day"
+          heading="The order of service"
+          description="Download the programme to follow along, or join us live if you can't be there in person."
+          primary={{ label: "Download Programme (PDF)", href: details.programme.pdfHref }}
+          secondary={{ label: "Watch the Live Stream", href: details.programme.livestreamHref }}
+        />
+      </section>
 
       <section className="mx-auto max-w-issue px-5 pb-4 md:px-8">
         <hr className="hairline mb-8" />

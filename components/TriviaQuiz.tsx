@@ -6,10 +6,37 @@ import { trivia } from "@/lib/content";
 /** A gentle, optional quiz. Reveals the score once every question is answered. */
 export default function TriviaQuiz() {
   const questions = trivia.questions;
+  const [started, setStarted] = useState(false);
   const [answers, setAnswers] = useState<(number | null)[]>(
     () => questions.map(() => null),
   );
   const [revealed, setRevealed] = useState(false);
+
+  if (!started) {
+    return (
+      <div className="mx-auto max-w-reading px-5 pb-20 text-center md:px-8">
+        <div className="rounded-sm border border-hairline bg-paper-dim/40 p-10 md:p-14">
+          <p className="numeral select-none leading-none" aria-hidden>
+            {questions.length}
+          </p>
+          <p className="eyebrow mt-4">
+            {questions.length} Questions &middot; No Prizes for Cheating
+          </p>
+          <h2 className="mt-4 font-display text-display-sm font-medium text-ink">
+            Ready to play?
+          </h2>
+          <p className="mx-auto mt-4 max-w-md">{trivia.prize}</p>
+          <button
+            type="button"
+            onClick={() => setStarted(true)}
+            className="mt-8 border border-ink bg-ink px-10 py-3.5 font-sans text-eyebrow uppercase tracking-eyebrow text-paper transition-colors hover:bg-accent hover:border-accent"
+          >
+            Start the quiz
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   const allAnswered = answers.every((a) => a !== null);
   const score = answers.reduce<number>(
