@@ -1,4 +1,4 @@
-# Amara & Elias — The Wedding Issue
+# Kwabena & Sandra — Anchored in Grace
 
 An editorial, "magazine issue" wedding website. Rather than one long scroll,
 the site reads as a single printed issue: a **cover**, a **contents** page,

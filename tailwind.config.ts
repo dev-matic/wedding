@@ -9,15 +9,16 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Warm off-white ground and soft near-black ink.
+        // Warm off-white ground and soft near-black ink (echoes the card stock).
         paper: "#FAF8F5",
         "paper-dim": "#F1ECE4",
         ink: "#1C1A17",
         "ink-soft": "#4A453E",
         "ink-faint": "#8A8378",
-        // One muted accent for links and rules.
-        accent: "#8C6A4A",
-        "accent-soft": "#B79C82",
+        // Palette drawn from the invitation: navy ink + gold, terracotta pop.
+        accent: "#2E3C56", // deep navy — eyebrows, links, rules
+        "accent-soft": "#BE9E52", // muted gold — decorative numerals, selection
+        terracotta: "#B5623A", // burnt-orange accent, as on the roses
         hairline: "#DAD2C6",
       },
       fontFamily: {
