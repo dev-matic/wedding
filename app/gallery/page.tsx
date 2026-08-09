@@ -7,7 +7,7 @@ import { gallery } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "The Gallery",
-  description: "A few frames from the years that led here.",
+  description: "A few frames from the road that led here.",
 };
 
 export default function GalleryPage() {
