@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-paper text-ink font-serif antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Body copy set in the serif at a comfortable reading size. */
+  p {
+    @apply text-lg leading-relaxed text-ink-soft md:text-xl;
+  }
+
+  a {
+    @apply transition-colors duration-200;
+  }
+
+  ::selection {
+    @apply bg-accent-soft/40 text-ink;
+  }
+}
+
+@layer components {
+  /* Small, uppercase, wide-tracked label — the editorial eyebrow. */
+  .eyebrow {
+    @apply font-sans text-eyebrow uppercase tracking-eyebrow text-accent;
+  }
+
+  /* Thin hairline rule for separating sections. */
+  .hairline {
+    @apply border-0 border-t border-hairline;
+  }
+
+  /* Large, light decorative numeral. */
+  .numeral {
+    @apply font-display text-numeral font-normal leading-none text-accent-soft;
+  }
+
+  .link-underline {
+    @apply text-accent underline decoration-hairline decoration-1 underline-offset-4 hover:decoration-accent;
+  }
+}
