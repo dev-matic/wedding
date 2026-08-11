@@ -316,6 +316,26 @@ export const rsvp = {
   demoCode: "GRACE26",
 };
 
+/** The invitation card shown at the top of the RSVP chapter.
+ *  TODO: reword `familiesLine` if you'd rather name the parents specifically. */
+export const invitation = {
+  /** Closed-card script line. */
+  tagline: "we do",
+  /** The formal request line on the opened card. */
+  familiesLine:
+    "The Boateng and Oduro families warmly request the pleasure of your company at the wedding ceremony of their children",
+  /** Full names shown beneath each first name. */
+  partnerAFull: "Obeng Boateng",
+  partnerBFull: "Aboagyewaa Oduro",
+  venue: {
+    name: "Presbyterian Church of Ghana",
+    time: "2:00 PM",
+    detail: "Revival Congregation, Leyton, London",
+  },
+  scriptureRef: "Hebrews 6:19",
+  scripture: "We have this hope as an anchor for the soul, firm and secure.",
+};
+
 /* ------------------------------------------------------------------ */
 /* Chapter 05 — Gallery                                                */
 /* ------------------------------------------------------------------ */
