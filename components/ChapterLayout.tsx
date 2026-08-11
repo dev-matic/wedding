@@ -1,4 +1,5 @@
 import Link from "next/link";
+import SiteMenu from "@/components/SiteMenu";
 import { couple } from "@/lib/content";
 import { getPageNav } from "@/lib/chapters";
 
@@ -49,16 +50,17 @@ export default function ChapterLayout({
             <span className="text-ink-soft">{chapterLabel}</span>
           </p>
 
-          {next ? (
-            <Link
-              href={next.href}
-              className="hidden font-sans text-eyebrow uppercase tracking-eyebrow text-ink-soft hover:text-accent sm:inline"
-            >
-              Next Chapter&nbsp;&rarr;
-            </Link>
-          ) : (
-            <span className="hidden sm:inline" />
-          )}
+          <div className="flex items-center gap-3 md:gap-5">
+            {next ? (
+              <Link
+                href={next.href}
+                className="hidden font-sans text-eyebrow uppercase tracking-eyebrow text-ink-soft hover:text-accent sm:inline"
+              >
+                Next Chapter&nbsp;&rarr;
+              </Link>
+            ) : null}
+            <SiteMenu tone="onLight" />
+          </div>
         </div>
       </header>
 

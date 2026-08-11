@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { couple, coverPhoto } from "@/lib/content";
-import CoverMenu from "@/components/CoverMenu";
+import SiteMenu from "@/components/SiteMenu";
 
 /**
  * The Cover — an editorial magazine front page. A full-bleed portrait sits
@@ -52,7 +52,7 @@ export default function Cover() {
       <div className="relative z-10 flex min-h-screen flex-col px-6 py-6 md:px-12 md:py-8">
         {/* Top bar — menu */}
         <div className="flex items-start justify-end">
-          <CoverMenu />
+          <SiteMenu tone="onDark" />
         </div>
 
         {/* Masthead */}
