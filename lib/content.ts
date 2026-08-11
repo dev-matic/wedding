@@ -17,7 +17,7 @@ export const couple = {
   /** Used in <title> etc. */
   names: "Kwabena & Sandra",
   /** Monogram shown on the cover and in the running header. */
-  monogram: "K / S",
+  monogram: "K&S",
   hashtag: "#AnchoredInGrace",
   /** The couple's theme, printed on the invitation. */
   theme: "Anchored in Grace",
