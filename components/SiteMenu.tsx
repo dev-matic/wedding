@@ -83,11 +83,8 @@ export default function SiteMenu({
               aria-modal="true"
               aria-hidden={!open}
             >
-              {/* Close + mark, top-right */}
-              <div className="absolute right-6 top-6 z-10 flex items-center gap-5 md:right-12 md:top-8">
-                <span className="grid h-6 w-6 place-items-center rounded-full border border-ink/40">
-                  <span className="h-1 w-1 rounded-full bg-ink/60" />
-                </span>
+              {/* Close, top-right */}
+              <div className="absolute right-6 top-6 z-10 flex items-center md:right-12 md:top-8">
                 <button
                   type="button"
                   onClick={() => setOpen(false)}
