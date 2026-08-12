@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Pinyon_Script } from "next/font/google";
 import { couple, invitation } from "@/lib/content";
 
@@ -98,22 +98,144 @@ function CardStage({
   setOpen: (v: boolean) => void;
   onContinue: () => void;
 }) {
+  const coverRef = useRef<HTMLButtonElement>(null);
+  const pageRef = useRef<HTMLDivElement>(null);
+  const [dims, setDims] = useState<{ closed: number; open: number } | null>(
+    null,
+  );
+
+  // Measure both faces so the book's height can morph between them.
+  useEffect(() => {
+    const measure = () =>
+      setDims({
+        closed: coverRef.current?.offsetHeight ?? 0,
+        open: pageRef.current?.offsetHeight ?? 0,
+      });
+    measure();
+    const t = setTimeout(measure, 350); // re-measure once webfonts settle
+    window.addEventListener("resize", measure);
+    (
+      document as unknown as { fonts?: { ready?: Promise<unknown> } }
+    ).fonts?.ready?.then(measure);
+    return () => {
+      clearTimeout(t);
+      window.removeEventListener("resize", measure);
+    };
+  }, []);
+
+  const height = dims ? (open ? dims.open : dims.closed) : undefined;
+
   return (
     <>
       <p className="mb-8 text-center font-sans text-eyebrow uppercase tracking-[0.3em] text-ink-faint">
         Chapter 04 &mdash; The Invitation
       </p>
 
-      {!open ? (
+      {/* The book — cover swings open on its left spine to reveal the page */}
+      <div
+        className="relative overflow-hidden rounded-sm shadow-[0_30px_60px_-30px_rgba(28,26,23,0.35)] transition-[height] duration-[900ms] ease-in-out [perspective:2200px]"
+        style={height ? { height } : undefined}
+      >
+        {/* The page — the opened invitation */}
+        <div
+          ref={pageRef}
+          aria-hidden={!open}
+          className={`absolute inset-x-0 top-0 transition-all duration-700 ease-out ${
+            open
+              ? "translate-y-0 opacity-100 delay-300"
+              : "pointer-events-none translate-y-1 opacity-0"
+          }`}
+        >
+          <div className="relative overflow-hidden rounded-sm border border-hairline bg-paper px-7 py-12 text-center md:px-10">
+            {/* spine shadow */}
+            <span className="pointer-events-none absolute inset-y-0 left-0 w-6 bg-gradient-to-r from-ink/10 to-transparent" />
+            <FloralCorner className="pointer-events-none absolute -left-2 -top-2 h-28 w-28" />
+            <FloralCorner className="pointer-events-none absolute -bottom-2 -right-2 h-28 w-28 rotate-180" />
+
+            <button
+              type="button"
+              onClick={() => setOpen(false)}
+              tabIndex={open ? 0 : -1}
+              className="absolute right-4 top-4 z-10 flex items-center gap-1.5 font-sans text-[0.58rem] uppercase tracking-[0.2em] text-ink-faint transition-colors hover:text-accent"
+            >
+              Tap to close
+              <span className="grid h-4 w-4 place-items-center rounded-full border border-ink/40 text-[0.55rem]">
+                &times;
+              </span>
+            </button>
+
+            <p
+              className={`${script.className} bg-gradient-to-r from-accent via-terracotta to-accent-soft bg-clip-text pt-6 text-6xl text-transparent`}
+            >
+              {couple.monogram}
+            </p>
+
+            <p className="mx-auto mt-5 max-w-xs font-serif text-lg italic leading-relaxed text-ink-soft">
+              {invitation.familiesLine}
+            </p>
+
+            <p className={`${script.className} mt-8 text-6xl text-accent`}>
+              {couple.partnerA}
+            </p>
+            <p className="mt-1 font-sans text-eyebrow uppercase tracking-[0.28em] text-accent/70">
+              {invitation.partnerAFull}
+            </p>
+
+            <p className={`${script.className} mt-4 text-5xl text-accent-soft`}>
+              &amp;
+            </p>
+
+            <p className={`${script.className} mt-2 text-6xl text-accent`}>
+              {couple.partnerB}
+            </p>
+            <p className="mt-1 font-sans text-eyebrow uppercase tracking-[0.28em] text-accent/70">
+              {invitation.partnerBFull}
+            </p>
+
+            <p className="mt-8 font-display text-xl tracking-wide text-ink">
+              {couple.weddingDay.date.replace(/^(\d+)\s/, "$1 ").toUpperCase()}{" "}
+              {couple.weddingDay.year}
+            </p>
+
+            <span className="mx-auto mt-6 block h-px w-16 bg-hairline" />
+
+            <p className="mt-6 font-sans text-eyebrow uppercase tracking-[0.28em] text-ink">
+              Venue | Time
+            </p>
+            <p className="mt-3 font-serif text-lg leading-relaxed text-ink">
+              {invitation.venue.name} &middot; {invitation.venue.time}
+              <br />
+              {invitation.venue.detail}
+            </p>
+
+            <p className="mt-8 font-sans text-eyebrow uppercase tracking-[0.28em] text-accent-soft">
+              {invitation.scriptureRef}
+            </p>
+            <p className="mt-2 font-serif text-lg italic leading-relaxed text-accent-soft">
+              &ldquo;{invitation.scripture}&rdquo;
+            </p>
+          </div>
+        </div>
+
+        {/* The cover — swings open on the left spine */}
         <button
+          ref={coverRef}
           type="button"
           onClick={() => setOpen(true)}
-          className="relative block w-full overflow-hidden rounded-sm border border-hairline bg-paper px-8 py-16 text-center shadow-[0_30px_60px_-30px_rgba(28,26,23,0.35)] transition-shadow hover:shadow-[0_40px_70px_-30px_rgba(28,26,23,0.45)]"
+          aria-hidden={open}
+          tabIndex={open ? -1 : 0}
+          className={`relative block w-full origin-left rounded-sm border border-hairline bg-paper px-8 py-16 text-center [backface-visibility:hidden] transition-all duration-[900ms] ease-in-out ${
+            open
+              ? "pointer-events-none opacity-0 [transform:rotateY(-155deg)]"
+              : "opacity-100 [transform:rotateY(0deg)]"
+          }`}
         >
           <span className="pointer-events-none absolute left-5 top-5 h-6 w-6 border-l border-t border-accent/40" />
           <span className="pointer-events-none absolute right-5 top-5 h-6 w-6 border-r border-t border-accent/40" />
           <span className="pointer-events-none absolute bottom-5 left-5 h-6 w-6 border-b border-l border-accent/40" />
           <span className="pointer-events-none absolute bottom-5 right-5 h-6 w-6 border-b border-r border-accent/40" />
+          {/* spine shading on the cover's binding edge */}
+          <span className="pointer-events-none absolute inset-y-0 left-0 w-5 bg-gradient-to-r from-ink/10 to-transparent" />
 
           <span className="font-sans text-eyebrow uppercase tracking-[0.3em] text-ink-faint">
             Tap to open
@@ -143,84 +265,19 @@ function CardStage({
             {couple.hashtag}
           </span>
         </button>
-      ) : (
-        <div className="relative overflow-hidden rounded-sm border border-hairline bg-paper px-7 py-12 text-center shadow-[0_30px_60px_-30px_rgba(28,26,23,0.35)] md:px-10">
-          <FloralCorner className="pointer-events-none absolute -left-2 -top-2 h-28 w-28" />
-          <FloralCorner className="pointer-events-none absolute -bottom-2 -right-2 h-28 w-28 rotate-180" />
+      </div>
 
-          <button
-            type="button"
-            onClick={() => setOpen(false)}
-            className="absolute right-4 top-4 z-10 flex items-center gap-1.5 font-sans text-[0.58rem] uppercase tracking-[0.2em] text-ink-faint transition-colors hover:text-accent"
-          >
-            Tap to close
-            <span className="grid h-4 w-4 place-items-center rounded-full border border-ink/40 text-[0.55rem]">
-              &times;
-            </span>
-          </button>
-
-          <p
-            className={`${script.className} bg-gradient-to-r from-accent via-terracotta to-accent-soft bg-clip-text pt-6 text-6xl text-transparent`}
-          >
-            {couple.monogram}
-          </p>
-
-          <p className="mx-auto mt-5 max-w-xs font-serif text-lg italic leading-relaxed text-ink-soft">
-            {invitation.familiesLine}
-          </p>
-
-          <p className={`${script.className} mt-8 text-6xl text-accent`}>
-            {couple.partnerA}
-          </p>
-          <p className="mt-1 font-sans text-eyebrow uppercase tracking-[0.28em] text-accent/70">
-            {invitation.partnerAFull}
-          </p>
-
-          <p className={`${script.className} mt-4 text-5xl text-accent-soft`}>
-            &amp;
-          </p>
-
-          <p className={`${script.className} mt-2 text-6xl text-accent`}>
-            {couple.partnerB}
-          </p>
-          <p className="mt-1 font-sans text-eyebrow uppercase tracking-[0.28em] text-accent/70">
-            {invitation.partnerBFull}
-          </p>
-
-          <p className="mt-8 font-display text-xl tracking-wide text-ink">
-            {couple.weddingDay.date.replace(/^(\d+)\s/, "$1 ").toUpperCase()}{" "}
-            {couple.weddingDay.year}
-          </p>
-
-          <span className="mx-auto mt-6 block h-px w-16 bg-hairline" />
-
-          <p className="mt-6 font-sans text-eyebrow uppercase tracking-[0.28em] text-ink">
-            Venue | Time
-          </p>
-          <p className="mt-3 font-serif text-lg leading-relaxed text-ink">
-            {invitation.venue.name} &middot; {invitation.venue.time}
-            <br />
-            {invitation.venue.detail}
-          </p>
-
-          <p className="mt-8 font-sans text-eyebrow uppercase tracking-[0.28em] text-accent-soft">
-            {invitation.scriptureRef}
-          </p>
-          <p className="mt-2 font-serif text-lg italic leading-relaxed text-accent-soft">
-            &ldquo;{invitation.scripture}&rdquo;
-          </p>
-        </div>
-      )}
-
-      {open ? (
-        <button
-          type="button"
-          onClick={onContinue}
-          className="mt-8 flex w-full items-center justify-center gap-3 bg-ink px-8 py-4 font-sans text-eyebrow uppercase tracking-eyebrow text-paper transition-colors hover:bg-accent"
-        >
-          Continue to RSVP <span aria-hidden>&rarr;</span>
-        </button>
-      ) : null}
+      <button
+        type="button"
+        onClick={onContinue}
+        aria-hidden={!open}
+        tabIndex={open ? 0 : -1}
+        className={`mt-8 flex w-full items-center justify-center gap-3 bg-ink px-8 py-4 font-sans text-eyebrow uppercase tracking-eyebrow text-paper transition-all duration-500 hover:bg-accent ${
+          open ? "opacity-100 delay-500" : "pointer-events-none opacity-0"
+        }`}
+      >
+        Continue to RSVP <span aria-hidden>&rarr;</span>
+      </button>
     </>
   );
 }
