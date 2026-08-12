@@ -358,8 +358,7 @@ const pic = (seed: string, w: number, h: number) =>
   `https://picsum.photos/seed/${seed}/${w}/${h}`;
 
 export const gallery = {
-  subtitle:
-    "A gallery in two parts — a few of the moments that led here, then our pre-wedding shoot.",
+  subtitle: "Moments captured in time",
   /** Curated, not chronological. Eight captioned moments lead; the pre-wedding
    *  shoot fills out the rest with the year dropped so it reads as one session.
    *  TODO: replace every `src`, caption, place and year with the real photos. */
