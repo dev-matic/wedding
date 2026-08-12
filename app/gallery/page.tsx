@@ -29,7 +29,7 @@ function GalleryFigure({
 }) {
   return (
     <Reveal as="figure" delay={delay} className={className}>
-      <div className="overflow-hidden rounded-sm bg-paper-dim md:max-h-[82vh]">
+      <div className="overflow-hidden rounded-sm bg-paper-dim">
         <Image
           src={item.src}
           alt={item.alt}
@@ -99,25 +99,19 @@ function GalleryBlock({ block, first }: { block: Block; first: boolean }) {
   const grid = "grid gap-8 md:grid-cols-12 md:gap-10";
 
   switch (block.type) {
-    case "feature": {
-      // Portrait "lone" images run too tall full-width, so contain them;
-      // landscape features stay wide (they're already short).
-      const portrait = a.height > a.width;
+    case "feature":
       return (
         <GalleryFigure
           item={a}
-          sizes={portrait ? "(min-width: 768px) 34vw, 100vw" : FEATURE}
+          sizes={FEATURE}
           priority={first}
-          className={
-            portrait ? "md:mx-auto md:max-w-md" : "md:mx-auto md:max-w-4xl"
-          }
+          className="md:mx-auto md:w-11/12"
         />
       );
-    }
     case "duoBigL":
       return (
         <div className={grid}>
-          <GalleryFigure item={a} sizes={BIG} priority={first} className="md:col-span-6" />
+          <GalleryFigure item={a} sizes={BIG} priority={first} className="md:col-span-7" />
           <GalleryFigure item={b} sizes={SMALL} delay={90} className="md:col-span-4 md:col-start-9 md:mt-24" />
         </div>
       );
@@ -125,13 +119,13 @@ function GalleryBlock({ block, first }: { block: Block; first: boolean }) {
       return (
         <div className={grid}>
           <GalleryFigure item={a} sizes={SMALL} className="md:col-span-4 md:mt-24" />
-          <GalleryFigure item={b} sizes={BIG} delay={90} className="md:col-span-6 md:col-start-7" />
+          <GalleryFigure item={b} sizes={BIG} delay={90} className="md:col-span-7 md:col-start-6" />
         </div>
       );
     case "duoTall":
       return (
         <div className={grid}>
-          <GalleryFigure item={a} sizes={BIG} className="md:col-span-5" />
+          <GalleryFigure item={a} sizes={BIG} className="md:col-span-6" />
           <GalleryFigure item={b} sizes={SMALL} delay={90} className="md:col-span-4 md:col-start-9 md:mt-20" />
         </div>
       );
@@ -159,7 +153,7 @@ export default function GalleryPage() {
         <p className="font-sans text-eyebrow uppercase tracking-[0.3em] text-ink-faint">
           Chapter 05
         </p>
-        <h1 className="mt-6 font-grotesque text-[clamp(2.5rem,8vw,4rem)] font-light leading-none tracking-[-0.02em] text-ink">
+        <h1 className="mt-6 font-sans text-6xl font-semibold tracking-tight text-ink md:text-8xl">
           The Gallery
         </h1>
         <span aria-hidden className="mx-auto mt-6 block h-px w-16 bg-accent/50" />
