@@ -340,18 +340,59 @@ export const invitation = {
 /* Chapter 05 — Gallery                                                */
 /* ------------------------------------------------------------------ */
 
+export type GalleryItem = {
+  src: string;
+  alt: string;
+  /** Short, with personality — not a literal description of the photo. */
+  caption: string;
+  place: string;
+  /** Year, or "" to omit (e.g. across a single shoot). */
+  year: string;
+  width: number;
+  height: number;
+};
+
+/** Placeholder image from Lorem Picsum — swap `src` for real photos before
+ *  launch (drop them in /public or host on Blob). */
+const pic = (seed: string, w: number, h: number) =>
+  `https://picsum.photos/seed/${seed}/${w}/${h}`;
+
 export const gallery = {
-  subtitle: "A few frames from the years that led here.",
-  photos: [
-    { src: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=1200&q=80", alt: "The couple laughing together", width: 1200, height: 1500 },
-    { src: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=1200&q=80", alt: "Golden hour portrait", width: 1200, height: 800 },
-    { src: "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=1200&q=80", alt: "An outdoor ceremony setting", width: 1200, height: 800 },
-    { src: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=1200&q=80", alt: "Hands clasped together", width: 1200, height: 1500 },
-    { src: "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=1200&q=80", alt: "Walking a city street", width: 1200, height: 800 },
-    { src: "https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&q=80", alt: "An embrace at golden hour", width: 1200, height: 1500 },
-    { src: "https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=1200&q=80", alt: "A quiet moment by the water", width: 1200, height: 800 },
-    { src: "https://images.unsplash.com/photo-1460978812857-470ed1c77af0?w=1200&q=80", alt: "Two coffee cups on a table", width: 1200, height: 800 },
-  ] as Photo[],
+  subtitle:
+    "A gallery in two parts — a few of the moments that led here, then our pre-wedding shoot.",
+  /** Curated, not chronological. Eight captioned moments lead; the pre-wedding
+   *  shoot fills out the rest with the year dropped so it reads as one session.
+   *  TODO: replace every `src`, caption, place and year with the real photos. */
+  items: [
+    // — Eight distinct, captioned moments —
+    { src: pic("ks-01", 1000, 1400), alt: "A quiet portrait", caption: "The call that started it all", place: "London", year: "2021", width: 1000, height: 1400 },
+    { src: pic("ks-02", 1400, 1000), alt: "Two cups of coffee", caption: "First coffee, first debate about coffee", place: "London", year: "2021", width: 1400, height: 1000 },
+    { src: pic("ks-03", 1000, 1400), alt: "Home for the holidays", caption: "Home for the holidays", place: "Accra", year: "2022", width: 1000, height: 1400 },
+    { src: pic("ks-04", 1400, 1000), alt: "A city street", caption: "The Sunday we stopped counting Sundays", place: "London", year: "2023", width: 1400, height: 1000 },
+    { src: pic("ks-05", 1000, 1400), alt: "Family gathering", caption: "Meeting the families", place: "Accra", year: "2023", width: 1000, height: 1400 },
+    { src: pic("ks-06", 1400, 1000), alt: "An embrace", caption: "A yes he already knew", place: "London", year: "2024", width: 1400, height: 1000 },
+    { src: pic("ks-07", 1000, 1400), alt: "Looking ahead", caption: "Counting down", place: "London", year: "2025", width: 1000, height: 1400 },
+    { src: pic("ks-08", 1400, 1000), alt: "By the water", caption: "Anchored", place: "London", year: "2026", width: 1400, height: 1000 },
+
+    // — The pre-wedding shoot (one session; year dropped) —
+    { src: pic("ks-09", 1000, 1400), alt: "Golden hour portrait", caption: "Golden hour, finally", place: "The pre-wedding shoot", year: "", width: 1000, height: 1400 },
+    { src: pic("ks-10", 1400, 1000), alt: "A shared glance", caption: "The look", place: "The pre-wedding shoot", year: "", width: 1400, height: 1000 },
+    { src: pic("ks-11", 1000, 1400), alt: "An unposed moment", caption: "Us, unposed", place: "The pre-wedding shoot", year: "", width: 1000, height: 1400 },
+    { src: pic("ks-12", 1200, 1200), alt: "Hands together", caption: "Hand in hand", place: "The pre-wedding shoot", year: "", width: 1200, height: 1200 },
+    { src: pic("ks-13", 1400, 1000), alt: "A quiet corner", caption: "Somewhere quiet", place: "The pre-wedding shoot", year: "", width: 1400, height: 1000 },
+    { src: pic("ks-14", 1000, 1400), alt: "A turning moment", caption: "The dress rehearsal", place: "The pre-wedding shoot", year: "", width: 1000, height: 1400 },
+    { src: pic("ks-15", 1400, 1000), alt: "Laughing together", caption: "Laughing at nothing", place: "The pre-wedding shoot", year: "", width: 1400, height: 1000 },
+    { src: pic("ks-16", 1000, 1400), alt: "Standing close", caption: "Still here", place: "The pre-wedding shoot", year: "", width: 1000, height: 1400 },
+    { src: pic("ks-17", 1200, 1200), alt: "A close portrait", caption: "Closer", place: "The pre-wedding shoot", year: "", width: 1200, height: 1200 },
+    { src: pic("ks-18", 1400, 1000), alt: "Walking away", caption: "The long way home", place: "The pre-wedding shoot", year: "", width: 1400, height: 1000 },
+    { src: pic("ks-19", 1000, 1400), alt: "Light on a face", caption: "Light on your face", place: "The pre-wedding shoot", year: "", width: 1000, height: 1400 },
+    { src: pic("ks-20", 1400, 1000), alt: "A candid moment", caption: "Between takes", place: "The pre-wedding shoot", year: "", width: 1400, height: 1000 },
+    { src: pic("ks-21", 1000, 1400), alt: "One more frame", caption: "One more", place: "The pre-wedding shoot", year: "", width: 1000, height: 1400 },
+    { src: pic("ks-22", 1200, 1200), alt: "Together", caption: "Together", place: "The pre-wedding shoot", year: "", width: 1200, height: 1200 },
+    { src: pic("ks-23", 1400, 1000), alt: "Last of the light", caption: "The last of the light", place: "The pre-wedding shoot", year: "", width: 1400, height: 1000 },
+    { src: pic("ks-24", 1000, 1400), alt: "Nearly there", caption: "Almost there", place: "The pre-wedding shoot", year: "", width: 1000, height: 1400 },
+    { src: pic("ks-25", 1400, 1000), alt: "Into the evening", caption: "Forever, roughly", place: "The pre-wedding shoot", year: "", width: 1400, height: 1000 },
+  ] as GalleryItem[],
 };
 
 /* ------------------------------------------------------------------ */

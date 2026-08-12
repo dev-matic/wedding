@@ -32,13 +32,23 @@ export default function ChapterLayout({
       {/* Running header */}
       <header className="sticky top-0 z-40 border-b border-hairline bg-paper/85 backdrop-blur-sm">
         <div className="mx-auto flex max-w-issue items-center justify-between gap-4 px-5 py-3.5 md:px-8">
-          <Link
-            href="/"
-            className="font-display text-lg tracking-wide text-ink hover:text-accent md:text-xl"
-            aria-label={`${couple.names} — home`}
-          >
-            {couple.monogram}
-          </Link>
+          <div className="flex items-center gap-4 md:gap-6">
+            <Link
+              href="/"
+              className="font-display text-lg tracking-wide text-ink hover:text-accent md:text-xl"
+              aria-label={`${couple.names} — home`}
+            >
+              {couple.monogram}
+            </Link>
+            {prev ? (
+              <Link
+                href={prev.href}
+                className="hidden font-sans text-eyebrow uppercase tracking-eyebrow text-ink-soft hover:text-accent sm:inline"
+              >
+                <span aria-hidden>&larr;</span>&nbsp;{prev.label}
+              </Link>
+            ) : null}
+          </div>
 
           <p className="font-sans text-eyebrow uppercase tracking-eyebrow text-ink-faint">
             {chapterNumber ? (
@@ -56,7 +66,7 @@ export default function ChapterLayout({
                 href={next.href}
                 className="hidden font-sans text-eyebrow uppercase tracking-eyebrow text-ink-soft hover:text-accent sm:inline"
               >
-                Next Chapter&nbsp;&rarr;
+                {next.label}&nbsp;<span aria-hidden>&rarr;</span>
               </Link>
             ) : null}
             <SiteMenu tone="onLight" />

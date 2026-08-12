@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import ChapterLayout from "@/components/ChapterLayout";
 import ChapterOpener from "@/components/ChapterOpener";
+import Reveal from "@/components/Reveal";
 import { gallery } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function GalleryPage() {
   return (
-    <ChapterLayout chapterNumber="05" chapterLabel="The Gallery" href="/gallery">
+    <ChapterLayout chapterNumber="05" chapterLabel="Gallery" href="/gallery">
       <ChapterOpener
         numeral="05"
         eyebrow="Chapter 05"
@@ -20,30 +21,47 @@ export default function GalleryPage() {
         subtitle={gallery.subtitle}
       />
 
-      {/* Masonry-style column layout for an editorial mix of crops. */}
+      {/* Masonry column layout — handles the mix of portrait & landscape crops. */}
       <section className="mx-auto max-w-issue px-5 pb-8 md:px-8">
-        <div className="columns-1 gap-4 sm:columns-2 lg:columns-3 [&>figure]:mb-4">
-          {gallery.photos.map((photo, i) => (
-            <figure
-              key={photo.src}
-              className="break-inside-avoid overflow-hidden rounded-sm bg-paper-dim"
+        <div className="columns-1 gap-5 sm:columns-2 lg:columns-3 [&>*]:mb-5">
+          {gallery.items.map((item, i) => (
+            <Reveal
+              key={item.src}
+              as="figure"
+              delay={(i % 3) * 90}
+              className="break-inside-avoid"
             >
-              <Image
-                src={photo.src}
-                alt={photo.alt}
-                width={photo.width}
-                height={photo.height}
-                sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                className="h-auto w-full object-cover"
-                priority={i < 2}
-              />
-            </figure>
+              <div className="overflow-hidden rounded-sm bg-paper-dim">
+                <Image
+                  src={item.src}
+                  alt={item.alt}
+                  width={item.width}
+                  height={item.height}
+                  sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                  className="h-auto w-full object-cover"
+                  priority={i < 3}
+                  loading={i < 3 ? undefined : "lazy"}
+                />
+              </div>
+              <figcaption className="mt-3">
+                <p className="font-serif text-base italic text-ink-soft">
+                  {item.caption}
+                </p>
+                <p className="mt-0.5 font-serif text-sm italic text-ink-faint">
+                  {item.place}
+                  {item.year ? ` · ${item.year}` : ""}
+                </p>
+              </figcaption>
+            </Reveal>
           ))}
         </div>
       </section>
 
       {/* Guest gallery call-to-action */}
-      <section className="mx-auto max-w-issue px-5 pb-12 pt-10 text-center md:px-8">
+      <Reveal
+        as="section"
+        className="mx-auto max-w-issue px-5 pb-12 pt-10 text-center md:px-8"
+      >
         <span aria-hidden className="mx-auto block h-px w-14 bg-hairline" />
         <p className="mt-8 font-serif text-2xl italic text-ink-soft md:text-3xl">
           Were you at the wedding?
@@ -54,7 +72,7 @@ export default function GalleryPage() {
         >
           Share Your Photos
         </Link>
-      </section>
+      </Reveal>
     </ChapterLayout>
   );
 }

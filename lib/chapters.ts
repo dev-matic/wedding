@@ -23,6 +23,9 @@ export type Chapter = {
   description: string;
   /** Zero-padded page number for the footer. Null = no page number shown. */
   pageNumber: string | null;
+  /** Additive pages (e.g. the guest gallery) sit outside the linear prev/next
+   *  chain — they're reached from a call-to-action or the menu, not by paging. */
+  additive?: boolean;
 };
 
 /**
@@ -33,14 +36,14 @@ export type Chapter = {
 const sequence: Chapter[] = [
   { href: "/", chapterNumber: null, chapterLabel: "Cover", description: "", pageNumber: null },
   { href: "/contents", chapterNumber: null, chapterLabel: "Contents", description: "The issue at a glance.", pageNumber: "01" },
-  { href: "/story", chapterNumber: "01", chapterLabel: "The Story", description: "How we met, told as a timeline.", pageNumber: "02" },
-  { href: "/details", chapterNumber: "02", chapterLabel: "The Details", description: "Events, venues, dress code and travel.", pageNumber: "03" },
-  { href: "/registry", chapterNumber: "03", chapterLabel: "The Registry", description: "A cash gift, a wish list, and the guest book.", pageNumber: "04" },
+  { href: "/story", chapterNumber: "01", chapterLabel: "Our Story", description: "How we met, told as a timeline.", pageNumber: "02" },
+  { href: "/details", chapterNumber: "02", chapterLabel: "Details", description: "Events, venues, dress code and travel.", pageNumber: "03" },
+  { href: "/registry", chapterNumber: "03", chapterLabel: "Registry", description: "A cash gift, a wish list, and the guest book.", pageNumber: "04" },
   { href: "/rsvp", chapterNumber: "04", chapterLabel: "RSVP", description: "Find your invitation and reply.", pageNumber: "05" },
-  { href: "/gallery", chapterNumber: "05", chapterLabel: "The Gallery", description: "A few frames from the years that led here.", pageNumber: "06" },
-  { href: "/guest-gallery", chapterNumber: null, chapterLabel: "Guest Gallery", description: "Add your own frames to the shared album.", pageNumber: null },
-  { href: "/faq", chapterNumber: "06", chapterLabel: "The Questions", description: "Grouped answers, and who to call on the day.", pageNumber: "07" },
-  { href: "/trivia", chapterNumber: "07", chapterLabel: "The Trivia", description: "A gentle quiz, with a little prize.", pageNumber: null },
+  { href: "/gallery", chapterNumber: "05", chapterLabel: "Gallery", description: "A few frames from the years that led here.", pageNumber: "06" },
+  { href: "/guest-gallery", chapterNumber: null, chapterLabel: "Guest Gallery", description: "Add your own frames to the shared album.", pageNumber: null, additive: true },
+  { href: "/faq", chapterNumber: "06", chapterLabel: "FAQ", description: "Grouped answers, and who to call on the day.", pageNumber: "07" },
+  { href: "/trivia", chapterNumber: "07", chapterLabel: "Trivia", description: "A gentle quiz, with a little prize.", pageNumber: null },
 ];
 
 /** Every page after Contents — used to render the contents index in order. */
@@ -74,14 +77,30 @@ export type PageNav = {
  * route. The final page's `next` loops back to Contents.
  */
 export function getPageNav(href: string): PageNav {
-  const index = sequence.findIndex((c) => c.href === href);
-  const current = sequence[index];
+  const current = sequence.find((c) => c.href === href);
 
-  const prevChapter = index > 0 ? sequence[index - 1] : null;
-  const isLast = index === sequence.length - 1;
-  const nextChapter = isLast
-    ? sequence.find((c) => c.href === "/contents")!
-    : sequence[index + 1] ?? null;
+  // The linear paging chain excludes additive pages (e.g. the guest gallery).
+  const nav = sequence.filter((c) => !c.additive);
+  const navIndex = nav.findIndex((c) => c.href === href);
+
+  let prevChapter: Chapter | null;
+  let nextChapter: Chapter | null;
+
+  if (navIndex !== -1) {
+    prevChapter = navIndex > 0 ? nav[navIndex - 1] : null;
+    const isLast = navIndex === nav.length - 1;
+    nextChapter = isLast
+      ? nav.find((c) => c.href === "/contents")!
+      : nav[navIndex + 1] ?? null;
+  } else {
+    // Additive page: borrow its neighbours from the full running order.
+    const fullIndex = sequence.findIndex((c) => c.href === href);
+    prevChapter = fullIndex > 0 ? sequence[fullIndex - 1] : null;
+    nextChapter =
+      sequence[fullIndex + 1] ??
+      sequence.find((c) => c.href === "/contents") ??
+      null;
+  }
 
   return {
     pageNumber: current?.pageNumber ?? null,

@@ -14,7 +14,7 @@ export default function FaqPage() {
   return (
     <ChapterLayout
       chapterNumber="06"
-      chapterLabel="The Questions"
+      chapterLabel="FAQ"
       href="/faq"
     >
       <ChapterOpener

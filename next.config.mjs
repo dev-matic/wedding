@@ -11,6 +11,11 @@ const nextConfig = {
         protocol: "https",
         hostname: "images.pexels.com",
       },
+      {
+        // Placeholder gallery images — swap for real photos (/public or Blob).
+        protocol: "https",
+        hostname: "picsum.photos",
+      },
     ],
   },
 };
