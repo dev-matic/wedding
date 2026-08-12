@@ -1,9 +1,4 @@
-import {
-  Playfair_Display,
-  Cormorant_Garamond,
-  Inter,
-  Archivo,
-} from "next/font/google";
+import { Playfair_Display, Cormorant_Garamond, Inter } from "next/font/google";
 
 /**
  * Fonts self-hosted at build time via next/font — no external requests at
@@ -31,14 +26,5 @@ export const ui = Inter({
   subsets: ["latin"],
   weight: ["400", "500"],
   variable: "--font-ui",
-  display: "swap",
-});
-
-/** Light neo-grotesque for large display headings — the guaranteed Light (300)
- *  fallback where Helvetica Neue isn't available (Windows, Android). */
-export const grotesque = Archivo({
-  subsets: ["latin"],
-  weight: ["300"],
-  variable: "--font-grotesque",
   display: "swap",
 });
