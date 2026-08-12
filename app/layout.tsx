@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { body, display, ui } from "./fonts";
+import { body, display, ui, grotesque } from "./fonts";
 import { couple, ogImage, siteUrl } from "@/lib/content";
 import "./globals.css";
 
@@ -55,7 +55,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${display.variable} ${body.variable} ${ui.variable}`}
+      className={`${display.variable} ${body.variable} ${ui.variable} ${grotesque.variable}`}
     >
       <body>{children}</body>
     </html>

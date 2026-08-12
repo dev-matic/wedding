@@ -25,8 +25,15 @@ const config: Config = {
         display: ["var(--font-display)", "Georgia", "serif"],
         serif: ["var(--font-body)", "Georgia", "serif"],
         sans: ["var(--font-ui)", "system-ui", "sans-serif"],
-        // Neo-grotesque for large display headings (Helvetica on Apple devices).
-        grotesque: ['"Helvetica Neue"', "Helvetica", "Arial", "sans-serif"],
+        // Neo-grotesque for large display headings: real Helvetica on Apple
+        // devices, Archivo Light (300) everywhere else, Arial as last resort.
+        grotesque: [
+          '"Helvetica Neue"',
+          "Helvetica",
+          "var(--font-grotesque)",
+          "Arial",
+          "sans-serif",
+        ],
       },
       fontSize: {
         // Editorial scale — large jump between eyebrow and title.
