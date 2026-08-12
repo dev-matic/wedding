@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 
 export default function DetailsPage() {
   return (
-    <ChapterLayout chapterNumber="02" chapterLabel="The Details" href="/details">
+    <ChapterLayout chapterNumber="02" chapterLabel="Details" href="/details">
       <ChapterOpener
         numeral="02"
         eyebrow="Chapter 02"

@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function TriviaPage() {
   return (
-    <ChapterLayout chapterNumber="07" chapterLabel="The Trivia" href="/trivia">
+    <ChapterLayout chapterNumber="07" chapterLabel="Trivia" href="/trivia">
       <ChapterOpener
         numeral="07"
         eyebrow="Chapter 07"

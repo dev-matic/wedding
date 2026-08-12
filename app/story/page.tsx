@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 
 export default function StoryPage() {
   return (
-    <ChapterLayout chapterNumber="01" chapterLabel="The Story" href="/story">
+    <ChapterLayout chapterNumber="01" chapterLabel="Our Story" href="/story">
       <ChapterOpener
         numeral="01"
         eyebrow="Chapter 01"

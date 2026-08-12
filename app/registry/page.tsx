@@ -15,7 +15,7 @@ export default function RegistryPage() {
   return (
     <ChapterLayout
       chapterNumber="03"
-      chapterLabel="The Registry"
+      chapterLabel="Registry"
       href="/registry"
     >
       <ChapterOpener
