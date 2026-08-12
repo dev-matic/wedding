@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import { Pinyon_Script } from "next/font/google";
 import { couple, invitation } from "@/lib/content";
 
@@ -98,71 +98,46 @@ function CardStage({
   setOpen: (v: boolean) => void;
   onContinue: () => void;
 }) {
-  const coverRef = useRef<HTMLButtonElement>(null);
-  const pageRef = useRef<HTMLDivElement>(null);
-  const [dims, setDims] = useState<{ closed: number; open: number } | null>(
-    null,
-  );
-
-  // Measure both faces so the book's height can morph between them.
-  useEffect(() => {
-    const measure = () =>
-      setDims({
-        closed: coverRef.current?.offsetHeight ?? 0,
-        open: pageRef.current?.offsetHeight ?? 0,
-      });
-    measure();
-    const t = setTimeout(measure, 350); // re-measure once webfonts settle
-    window.addEventListener("resize", measure);
-    (
-      document as unknown as { fonts?: { ready?: Promise<unknown> } }
-    ).fonts?.ready?.then(measure);
-    return () => {
-      clearTimeout(t);
-      window.removeEventListener("resize", measure);
-    };
-  }, []);
-
-  const height = dims ? (open ? dims.open : dims.closed) : undefined;
-
   return (
     <>
       <p className="mb-8 text-center font-sans text-eyebrow uppercase tracking-[0.3em] text-ink-faint">
         Chapter 04 &mdash; The Invitation
       </p>
 
-      {/* The book — cover swings open on its left spine to reveal the page */}
-      <div
-        className="relative overflow-hidden rounded-sm shadow-[0_30px_60px_-30px_rgba(28,26,23,0.35)] transition-[height] duration-[900ms] ease-in-out [perspective:2200px]"
-        style={height ? { height } : undefined}
-      >
-        {/* The page — the opened invitation */}
+      {/* The book — the cover swings open on its left spine to reveal the page.
+          Both faces share one box, so the cover and invitation are the same size. */}
+      <div className="relative overflow-hidden rounded-sm shadow-[0_30px_60px_-30px_rgba(28,26,23,0.35)] [perspective:2200px]">
+        {/* The page — the opened invitation. Tapping anywhere on it closes it. */}
         <div
-          ref={pageRef}
           aria-hidden={!open}
-          className={`absolute inset-x-0 top-0 transition-all duration-700 ease-out ${
-            open
-              ? "translate-y-0 opacity-100 delay-300"
-              : "pointer-events-none translate-y-1 opacity-0"
+          className={`relative transition-all duration-700 ease-out ${
+            open ? "opacity-100 delay-300" : "pointer-events-none opacity-0"
           }`}
         >
-          <div className="relative overflow-hidden rounded-sm border border-hairline bg-paper px-7 py-12 text-center md:px-10">
+          <div
+            role="button"
+            aria-label="Close the invitation"
+            tabIndex={open ? 0 : -1}
+            onClick={() => setOpen(false)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                setOpen(false);
+              }
+            }}
+            className="relative cursor-pointer overflow-hidden rounded-sm border border-hairline bg-paper px-7 py-12 text-center md:px-10"
+          >
             {/* spine shadow */}
             <span className="pointer-events-none absolute inset-y-0 left-0 w-6 bg-gradient-to-r from-ink/10 to-transparent" />
             <FloralCorner className="pointer-events-none absolute -left-2 -top-2 h-28 w-28" />
             <FloralCorner className="pointer-events-none absolute -bottom-2 -right-2 h-28 w-28 rotate-180" />
 
-            <button
-              type="button"
-              onClick={() => setOpen(false)}
-              tabIndex={open ? 0 : -1}
-              className="absolute right-4 top-4 z-10 flex items-center gap-1.5 font-sans text-[0.58rem] uppercase tracking-[0.2em] text-ink-faint transition-colors hover:text-accent"
-            >
+            <span className="absolute right-4 top-4 z-10 flex items-center gap-1.5 font-sans text-[0.58rem] uppercase tracking-[0.2em] text-ink-faint">
               Tap to close
               <span className="grid h-4 w-4 place-items-center rounded-full border border-ink/40 text-[0.55rem]">
                 &times;
               </span>
-            </button>
+            </span>
 
             <p
               className={`${script.className} bg-gradient-to-r from-accent via-terracotta to-accent-soft bg-clip-text pt-6 text-6xl text-transparent`}
@@ -217,14 +192,14 @@ function CardStage({
           </div>
         </div>
 
-        {/* The cover — swings open on the left spine */}
+        {/* The cover — fills the same box as the page (same size), and swings
+            open on the left spine. */}
         <button
-          ref={coverRef}
           type="button"
           onClick={() => setOpen(true)}
           aria-hidden={open}
           tabIndex={open ? -1 : 0}
-          className={`relative block w-full origin-left rounded-sm border border-hairline bg-paper px-8 py-16 text-center [backface-visibility:hidden] transition-all duration-[900ms] ease-in-out ${
+          className={`absolute inset-0 flex origin-left flex-col items-center justify-between rounded-sm border border-hairline bg-paper px-8 py-16 text-center [backface-visibility:hidden] transition-all duration-[900ms] ease-in-out ${
             open
               ? "pointer-events-none opacity-0 [transform:rotateY(-155deg)]"
               : "opacity-100 [transform:rotateY(0deg)]"
@@ -241,7 +216,7 @@ function CardStage({
             Tap to open
           </span>
 
-          <span className="mt-20 flex flex-col items-center">
+          <span className="flex flex-col items-center">
             <Heart className="h-6 w-6 text-terracotta" />
             <span className={`${script.className} mt-2 text-6xl text-terracotta`}>
               {invitation.tagline}
@@ -257,12 +232,14 @@ function CardStage({
             </span>
           </span>
 
-          <span className="mx-auto mt-6 block h-px w-16 bg-hairline" />
-          <span className="mt-5 block font-sans text-eyebrow uppercase tracking-[0.3em] text-accent">
-            {dateDotted}
-          </span>
-          <span className="mt-3 block font-sans text-eyebrow uppercase tracking-[0.3em] text-accent-soft">
-            {couple.hashtag}
+          <span className="flex flex-col items-center">
+            <span className="block h-px w-16 bg-hairline" />
+            <span className="mt-5 block font-sans text-eyebrow uppercase tracking-[0.3em] text-accent">
+              {dateDotted}
+            </span>
+            <span className="mt-3 block font-sans text-eyebrow uppercase tracking-[0.3em] text-accent-soft">
+              {couple.hashtag}
+            </span>
           </span>
         </button>
       </div>
