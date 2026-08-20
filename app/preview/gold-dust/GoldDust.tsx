@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 
 /** Couple's photo behind the particles. Replace with the real one: drop it in
  *  /public (e.g. /public/cover.jpg) and set COVER_PHOTO = "/cover.jpg". */
-const COVER_PHOTO = "https://picsum.photos/seed/ks-cover/1600/2000";
+const COVER_PHOTO = "/cover.jpeg";
 
 /**
  * PROTOTYPE — "Gold Dust" cover.
@@ -76,7 +76,7 @@ export default function GoldDust() {
             if (data[(y * CW + x) * 4] > 128) pts.push([x, y]);
           }
         }
-        const spread = 18;
+        const spread = 15;
         const out = new Float32Array(N * 3);
         for (let i = 0; i < N; i++) {
           const p = pts.length
@@ -169,6 +169,7 @@ export default function GoldDust() {
       });
 
       const points = new THREE.Points(geometry, material);
+      points.position.y = -1.6; // sit the gold over the darker mid/lower band
       scene.add(points);
 
       /* ---- interaction + animation ---- */
@@ -257,15 +258,30 @@ export default function GoldDust() {
       {/* navy duotone — tints even a bright photo deep so the gold reads */}
       <div
         className="absolute inset-0"
-        style={{ backgroundColor: "#123246", mixBlendMode: "multiply" }}
+        style={{ backgroundColor: "#15384e", mixBlendMode: "multiply" }}
         aria-hidden
       />
-      {/* legibility gradient */}
+      {/* uniform navy scrim */}
+      <div
+        className="absolute inset-0"
+        style={{ backgroundColor: "rgba(9,22,32,0.34)" }}
+        aria-hidden
+      />
+      {/* vignette — darkens the edges */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(180deg, rgba(8,20,30,0.72) 0%, rgba(8,20,30,0.35) 42%, rgba(8,20,30,0.92) 100%)",
+            "radial-gradient(120% 95% at 50% 38%, transparent 30%, rgba(6,15,23,0.72) 100%)",
+        }}
+        aria-hidden
+      />
+      {/* legibility gradient — keeps faces readable up top, darkens the band the gold sits over */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(8,20,30,0.5) 0%, rgba(8,20,30,0.12) 32%, rgba(8,20,30,0.7) 64%, rgba(8,20,30,0.95) 100%)",
         }}
         aria-hidden
       />
@@ -288,11 +304,8 @@ export default function GoldDust() {
         </span>
       </div>
 
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 flex flex-col items-center gap-2 px-6 py-8">
-        <p className="font-sans text-eyebrow uppercase tracking-[0.4em] text-paper/70">
-          Kwabena &amp; Sandra &nbsp;·&nbsp; 21 November 2026
-        </p>
-        <p className="font-sans text-eyebrow uppercase tracking-[0.4em] text-[#e7c766]/80">
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 flex flex-col items-center px-6 py-8">
+        <p className="font-sans text-eyebrow uppercase tracking-[0.4em] text-[#e7c766]/85">
           Anchored in Grace
         </p>
       </div>
