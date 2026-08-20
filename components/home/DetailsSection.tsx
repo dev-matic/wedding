@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Reveal from "@/components/Reveal";
+import Countdown from "@/components/Countdown";
 import { details, invitation } from "@/lib/content";
 
 function Anchor({ className }: { className?: string }) {
@@ -72,6 +73,10 @@ function Ceremony({ event }: { event: Ceremony }) {
           <p className="mt-5 inline-block border border-[#e7c766]/40 px-4 py-2 font-sans text-eyebrow uppercase tracking-eyebrow text-[#e7c766]">
             {event.note}
           </p>
+        ) : null}
+
+        {event.target ? (
+          <Countdown target={event.target} compact className="mt-8 justify-start" />
         ) : null}
 
         <span aria-hidden className="my-8 block h-px w-16 bg-[#e7c766]/40" />

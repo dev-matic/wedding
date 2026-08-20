@@ -1,18 +1,19 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Link from "next/link";
 import { couple } from "@/lib/content";
 
 /** Couple's photo behind the particles (black & white). */
 const COVER_PHOTO = "/cover.jpeg";
 
-/** In-page section links (one-page scroll). */
+/** Section pages. */
 const NAV = [
-  { label: "Our Story", href: "#story" },
-  { label: "The Wedding", href: "#details" },
-  { label: "Gallery", href: "#gallery" },
-  { label: "Gifts", href: "#registry" },
-  { label: "RSVP", href: "#rsvp" },
+  { label: "Our Story", href: "/story" },
+  { label: "The Wedding", href: "/details" },
+  { label: "Gallery", href: "/gallery" },
+  { label: "Gifts", href: "/registry" },
+  { label: "RSVP", href: "/rsvp" },
 ];
 
 /**
@@ -311,12 +312,12 @@ export default function GoldDustCover() {
         <nav className="flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1.5 font-sans text-[0.6rem] uppercase tracking-[0.24em] text-paper/70 sm:gap-x-3 sm:text-[0.62rem] sm:tracking-[0.28em]">
           {NAV.map((c, i) => (
             <span key={c.href} className="flex items-center gap-2.5 sm:gap-3">
-              <a
+              <Link
                 href={c.href}
                 className="pointer-events-auto transition-colors hover:text-[#e7c766]"
               >
                 {c.label}
-              </a>
+              </Link>
               {i < NAV.length - 1 ? (
                 <span aria-hidden className="text-[#e7c766]/55">
                   ·
@@ -327,8 +328,8 @@ export default function GoldDustCover() {
         </nav>
 
         <a
-          href="#story"
-          aria-label="Scroll to explore"
+          href="#countdown"
+          aria-label="Scroll to the countdown"
           className="pointer-events-auto mt-1 animate-bounce text-[#e7c766]/80"
         >
           ↓
