@@ -32,12 +32,8 @@ function Ceremony({ event }: { event: Ceremony }) {
   return (
     <div className="grid items-center gap-8 md:grid-cols-2 md:gap-14">
       {/* Image */}
-      <Reveal
-        className={
-          imageLeft ? "md:order-1" : "md:order-2"
-        }
-      >
-        <div className="relative aspect-[4/5] w-full overflow-hidden">
+      <Reveal className={imageLeft ? "md:order-1" : "md:order-2"}>
+        <div className="relative aspect-[4/5] w-full overflow-hidden bg-black/5">
           <Image
             src={event.photo.src}
             alt={event.photo.alt}
@@ -46,31 +42,28 @@ function Ceremony({ event }: { event: Ceremony }) {
             className="object-cover"
           />
         </div>
-        <p className="mt-4 flex items-center gap-3 font-sans text-eyebrow uppercase tracking-eyebrow text-paper/45">
-          <span aria-hidden className="h-px w-8 bg-[#e7c766]" />
+        <p className="mt-4 flex items-center gap-3 font-sans text-eyebrow uppercase tracking-eyebrow text-ink-faint">
+          <span aria-hidden className="h-px w-8 bg-[#a8842c]" />
           Event {event.no} — {event.kicker}
         </p>
       </Reveal>
 
       {/* Text */}
-      <Reveal
-        delay={80}
-        className={imageLeft ? "md:order-2" : "md:order-1"}
-      >
-        <p aria-hidden className="font-display text-6xl leading-none text-paper/10 md:text-8xl">
+      <Reveal delay={80} className={imageLeft ? "md:order-2" : "md:order-1"}>
+        <p aria-hidden className="font-display text-6xl leading-none text-ink/10 md:text-8xl">
           {event.no}
         </p>
-        <p className="mt-4 font-sans text-eyebrow uppercase tracking-[0.35em] text-[#e7c766]">
+        <p className="mt-4 font-sans text-eyebrow uppercase tracking-[0.35em] text-[#a8842c]">
           {event.kicker}
         </p>
-        <h3 className="mt-4 font-display text-4xl font-medium leading-tight text-paper md:text-5xl">
+        <h3 className="mt-4 font-display text-4xl font-medium leading-tight text-ink md:text-5xl">
           {event.title}
         </h3>
-        <p className="mt-5 max-w-md font-serif text-lg leading-relaxed text-paper/70">
+        <p className="mt-5 max-w-md font-serif text-lg leading-relaxed text-ink-soft">
           {event.body}
         </p>
         {event.note ? (
-          <p className="mt-5 inline-block border border-[#e7c766]/40 px-4 py-2 font-sans text-eyebrow uppercase tracking-eyebrow text-[#e7c766]">
+          <p className="mt-5 inline-block border border-[#a8842c]/50 px-4 py-2 font-sans text-eyebrow uppercase tracking-eyebrow text-[#a8842c]">
             {event.note}
           </p>
         ) : null}
@@ -79,18 +72,18 @@ function Ceremony({ event }: { event: Ceremony }) {
           <Countdown target={event.target} compact className="mt-8 justify-start" />
         ) : null}
 
-        <span aria-hidden className="my-8 block h-px w-16 bg-[#e7c766]/40" />
+        <span aria-hidden className="my-8 block h-px w-16 bg-[#a8842c]/40" />
 
         <dl className="space-y-6">
           {event.rows.map((row) => (
             <div key={row.label}>
-              <dt className="font-sans text-eyebrow uppercase tracking-eyebrow text-paper/45">
+              <dt className="font-sans text-eyebrow uppercase tracking-eyebrow text-ink-faint">
                 {row.label}
               </dt>
-              <dd className="mt-1.5 font-display text-xl text-paper">
+              <dd className="mt-1.5 font-display text-xl text-ink">
                 {row.value}
               </dd>
-              <dd className="mt-1 font-serif text-base leading-relaxed text-paper/60">
+              <dd className="mt-1 font-serif text-base leading-relaxed text-ink-soft">
                 {row.detail}
               </dd>
             </div>
@@ -102,7 +95,7 @@ function Ceremony({ event }: { event: Ceremony }) {
             href={event.mapLink}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-8 inline-flex items-center gap-2 font-sans text-eyebrow uppercase tracking-eyebrow text-[#e7c766] transition-colors hover:text-paper"
+            className="mt-8 inline-flex items-center gap-2 font-sans text-eyebrow uppercase tracking-eyebrow text-[#a8842c] transition-colors hover:text-ink"
           >
             View on map <span aria-hidden>&#8599;</span>
           </a>
@@ -114,17 +107,17 @@ function Ceremony({ event }: { event: Ceremony }) {
 
 export default function DetailsSection() {
   return (
-    <section id="details" className="scroll-mt-4 bg-[#0d0e11] px-5 py-24 md:px-8 md:py-36">
+    <section id="details" className="scroll-mt-4 bg-paper px-5 py-24 md:px-8 md:py-36">
       <div className="mx-auto max-w-issue">
         <Reveal className="text-center">
-          <Anchor className="mx-auto h-12 w-12 text-[#e7c766]" />
-          <p className="mt-6 font-sans text-eyebrow uppercase tracking-[0.4em] text-[#e7c766]">
+          <Anchor className="mx-auto h-12 w-12 text-[#a8842c]" />
+          <p className="mt-6 font-sans text-eyebrow uppercase tracking-[0.4em] text-[#a8842c]">
             The Wedding
           </p>
-          <h2 className="mt-5 font-display text-4xl font-medium text-paper md:text-6xl">
+          <h2 className="mt-5 font-display text-4xl font-medium text-ink md:text-6xl">
             Three celebrations, one union
           </h2>
-          <p className="mx-auto mt-6 max-w-xl font-serif text-lg italic leading-relaxed text-paper/60">
+          <p className="mx-auto mt-6 max-w-xl font-serif text-lg italic leading-relaxed text-ink-soft">
             From our Ghanaian roots to the church in London — we would be honoured
             to have you with us.
           </p>
@@ -137,11 +130,11 @@ export default function DetailsSection() {
         </div>
 
         <Reveal className="mt-24 text-center md:mt-32">
-          <span aria-hidden className="mx-auto mb-10 block h-px w-16 bg-[#e7c766]/50" />
-          <p className="mx-auto max-w-2xl font-serif text-2xl italic leading-snug text-[#e7c766] md:text-3xl">
+          <span aria-hidden className="mx-auto mb-10 block h-px w-16 bg-[#a8842c]/45" />
+          <p className="mx-auto max-w-2xl font-serif text-2xl italic leading-snug text-[#a8842c] md:text-3xl">
             &ldquo;{invitation.scripture}&rdquo;
           </p>
-          <p className="mt-4 font-sans text-eyebrow uppercase tracking-eyebrow text-paper/50">
+          <p className="mt-4 font-sans text-eyebrow uppercase tracking-eyebrow text-ink-faint">
             {invitation.scriptureRef}
           </p>
         </Reveal>
