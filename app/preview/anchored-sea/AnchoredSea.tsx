@@ -217,8 +217,8 @@ export default function AnchoredSea() {
 
       {/* top chrome */}
       <div className="pointer-events-none absolute inset-x-0 top-0 flex items-center justify-between px-6 py-6 md:px-10">
-        <span className="font-sans text-eyebrow uppercase tracking-[0.4em] text-[#e7c766]/85">
-          The Wedding Issue
+        <span className="font-display text-lg tracking-[0.32em] text-[#e7c766]/90">
+          K &amp; S
         </span>
         <span className="font-sans text-eyebrow uppercase tracking-[0.4em] text-paper/60">
           Menu
