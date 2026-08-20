@@ -6,6 +6,16 @@ import { useEffect, useRef } from "react";
  *  /public (e.g. /public/cover.jpg) and set COVER_PHOTO = "/cover.jpg". */
 const COVER_PHOTO = "/cover.jpeg";
 
+const CHAPTERS = [
+  "Our Story",
+  "Details",
+  "Registry",
+  "RSVP",
+  "Gallery",
+  "FAQ",
+  "Trivia",
+];
+
 /**
  * PROTOTYPE — "Gold Dust" cover.
  * A field of gold particles on deep navy that morphs between K & S → the
@@ -169,7 +179,7 @@ export default function GoldDust() {
       });
 
       const points = new THREE.Points(geometry, material);
-      points.position.y = -1.6; // sit the gold over the darker mid/lower band
+      points.position.y = -0.8; // sit the gold over the darker mid band (his blazer)
       scene.add(points);
 
       /* ---- interaction + animation ---- */
@@ -248,40 +258,34 @@ export default function GoldDust() {
   }, []);
 
   return (
-    <main className="relative min-h-screen w-full overflow-hidden bg-[#0b1f2e] text-paper">
+    <main className="relative min-h-screen w-full overflow-hidden bg-[#0a0a0b] text-paper">
       {/* couple's photo */}
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{ backgroundImage: `url(${COVER_PHOTO})` }}
         aria-hidden
       />
-      {/* navy duotone — tints even a bright photo deep so the gold reads */}
+      {/* neutral darken — keeps the photo black & white, just deeper */}
       <div
         className="absolute inset-0"
-        style={{ backgroundColor: "#15384e", mixBlendMode: "multiply" }}
+        style={{ backgroundColor: "rgba(0,0,0,0.30)" }}
         aria-hidden
       />
-      {/* uniform navy scrim */}
-      <div
-        className="absolute inset-0"
-        style={{ backgroundColor: "rgba(9,22,32,0.34)" }}
-        aria-hidden
-      />
-      {/* vignette — darkens the edges */}
+      {/* vignette — darkens the edges (neutral) */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(120% 95% at 50% 38%, transparent 30%, rgba(6,15,23,0.72) 100%)",
+            "radial-gradient(120% 95% at 50% 38%, transparent 30%, rgba(0,0,0,0.72) 100%)",
         }}
         aria-hidden
       />
-      {/* legibility gradient — keeps faces readable up top, darkens the band the gold sits over */}
+      {/* legibility gradient — faces readable up top, darker band where the gold sits */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(180deg, rgba(8,20,30,0.5) 0%, rgba(8,20,30,0.12) 32%, rgba(8,20,30,0.7) 64%, rgba(8,20,30,0.95) 100%)",
+            "linear-gradient(180deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.08) 32%, rgba(0,0,0,0.68) 64%, rgba(0,0,0,0.95) 100%)",
         }}
         aria-hidden
       />
@@ -304,10 +308,29 @@ export default function GoldDust() {
         </span>
       </div>
 
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 flex flex-col items-center px-6 py-8">
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 flex flex-col items-center gap-5 px-6 pb-8">
         <p className="font-sans text-eyebrow uppercase tracking-[0.4em] text-[#e7c766]/85">
           Anchored in Grace
         </p>
+
+        {/* dotted chapter row — what's inside */}
+        <nav className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5 font-sans text-[0.62rem] uppercase tracking-[0.28em] text-paper/65">
+          {CHAPTERS.map((c, i) => (
+            <span key={c} className="flex items-center gap-3">
+              <span>{c}</span>
+              {i < CHAPTERS.length - 1 ? (
+                <span aria-hidden className="text-[#e7c766]/55">
+                  ·
+                </span>
+              ) : null}
+            </span>
+          ))}
+        </nav>
+
+        {/* Contents button — the way in */}
+        <span className="inline-flex items-center gap-3 border border-paper/45 px-8 py-3 font-sans text-eyebrow uppercase tracking-[0.35em] text-paper/90">
+          Contents <span className="text-[#e7c766]">&rarr;</span>
+        </span>
       </div>
     </main>
   );
