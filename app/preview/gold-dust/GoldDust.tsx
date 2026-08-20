@@ -2,6 +2,10 @@
 
 import { useEffect, useRef } from "react";
 
+/** Couple's photo behind the particles. Replace with the real one: drop it in
+ *  /public (e.g. /public/cover.jpg) and set COVER_PHOTO = "/cover.jpg". */
+const COVER_PHOTO = "https://picsum.photos/seed/ks-cover/1600/2000";
+
 /**
  * PROTOTYPE — "Gold Dust" cover.
  * A field of gold particles on deep navy that morphs between K & S → the
@@ -244,7 +248,23 @@ export default function GoldDust() {
 
   return (
     <main className="relative min-h-screen w-full overflow-hidden bg-[#0b1f2e] text-paper">
-      {/* three.js mounts here */}
+      {/* couple's photo */}
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: `url(${COVER_PHOTO})` }}
+        aria-hidden
+      />
+      {/* navy wash for legibility and to let the gold glow read */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(8,20,30,0.68) 0%, rgba(8,20,30,0.42) 42%, rgba(8,20,30,0.9) 100%)",
+        }}
+        aria-hidden
+      />
+
+      {/* three.js particles mount over the photo (transparent canvas) */}
       <div ref={mountRef} className="absolute inset-0" aria-hidden />
 
       {/* static fallback / accessible content underneath the canvas */}
