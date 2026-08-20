@@ -35,7 +35,7 @@ export default function StorySection() {
                     width={block.photo.width}
                     height={block.photo.height}
                     sizes="(min-width: 768px) 50vw, 100vw"
-                    className="h-auto w-full grayscale"
+                    className="h-auto w-full"
                   />
                 </div>
               </Reveal>
