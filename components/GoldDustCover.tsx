@@ -1,21 +1,21 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import Link from "next/link";
-import SiteMenu from "@/components/SiteMenu";
 import { couple } from "@/lib/content";
-import { chapters } from "@/lib/chapters";
 
 /** Couple's photo behind the particles (black & white). */
 const COVER_PHOTO = "/cover.jpeg";
 
-/** The numbered chapters, for the dotted row on the cover. */
-const NAV = chapters
-  .filter((c) => c.chapterNumber !== null)
-  .map((c) => ({ label: c.chapterLabel, href: c.href }));
+/** In-page section links (one-page scroll). */
+const NAV = [
+  { label: "Our Story", href: "#story" },
+  { label: "The Wedding", href: "#details" },
+  { label: "Gallery", href: "#gallery" },
+  { label: "RSVP", href: "#rsvp" },
+];
 
 /**
- * The cover — a field of gold particles over the couple's black & white photo,
+ * The cover / hero — gold particles over the couple's black & white photo,
  * morphing between the monogram, the anchor and the date. three.js is loaded
  * lazily; a static frame is shown for prefers-reduced-motion / no WebGL. The
  * particle field scales to fit the viewport, so it reads on phones too.
@@ -176,7 +176,6 @@ export default function GoldDustCover() {
       points.position.y = -0.8;
       scene.add(points);
 
-      // scale the cloud so the widest shape fits the viewport width (phones!)
       const fit = () => {
         const vFOV = (camera.fov * Math.PI) / 180;
         const visH = 2 * Math.tan(vFOV / 2) * camera.position.z;
@@ -255,7 +254,10 @@ export default function GoldDustCover() {
   }, []);
 
   return (
-    <main className="relative min-h-screen w-full overflow-hidden bg-[#0a0a0b] text-paper">
+    <section
+      id="top"
+      className="relative min-h-screen w-full overflow-hidden bg-[#0a0a0b] text-paper"
+    >
       {/* couple's photo (black & white) */}
       <div
         className="absolute inset-0 bg-cover bg-center"
@@ -287,38 +289,33 @@ export default function GoldDustCover() {
       {/* particles */}
       <div ref={mountRef} className="absolute inset-0" aria-hidden />
 
-      {/* screen-reader heading */}
       <h1 className="sr-only">
         {couple.names} — {couple.weddingDay.date} {couple.weddingDay.year}.{" "}
         {couple.theme}.
       </h1>
 
-      {/* top chrome */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 flex items-center justify-between px-5 py-5 md:px-10 md:py-6">
+      {/* monogram */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 flex items-center px-5 py-5 md:px-10 md:py-6">
         <span className="font-display text-lg tracking-[0.3em] text-[#e7c766]/90">
           {couple.partnerA[0]} &amp; {couple.partnerB[0]}
         </span>
-        <div className="pointer-events-auto">
-          <SiteMenu tone="onDark" />
-        </div>
       </div>
 
-      {/* bottom navigation */}
+      {/* bottom navigation — the sections */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 flex flex-col items-center gap-4 px-5 pb-7 md:gap-5 md:pb-9">
         <p className="font-sans text-eyebrow uppercase tracking-[0.4em] text-[#e7c766]/85">
           {couple.theme}
         </p>
 
-        {/* dotted chapter row — what's inside */}
         <nav className="flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1.5 font-sans text-[0.6rem] uppercase tracking-[0.24em] text-paper/70 sm:gap-x-3 sm:text-[0.62rem] sm:tracking-[0.28em]">
           {NAV.map((c, i) => (
             <span key={c.href} className="flex items-center gap-2.5 sm:gap-3">
-              <Link
+              <a
                 href={c.href}
                 className="pointer-events-auto transition-colors hover:text-[#e7c766]"
               >
                 {c.label}
-              </Link>
+              </a>
               {i < NAV.length - 1 ? (
                 <span aria-hidden className="text-[#e7c766]/55">
                   ·
@@ -328,14 +325,14 @@ export default function GoldDustCover() {
           ))}
         </nav>
 
-        {/* Contents — the way in */}
-        <Link
-          href="/contents"
-          className="pointer-events-auto inline-flex items-center gap-3 border border-paper/45 px-7 py-3 font-sans text-eyebrow uppercase tracking-[0.35em] text-paper/90 transition-colors hover:border-[#e7c766] hover:text-[#e7c766] md:px-8"
+        <a
+          href="#story"
+          aria-label="Scroll to explore"
+          className="pointer-events-auto mt-1 animate-bounce text-[#e7c766]/80"
         >
-          Contents <span className="text-[#e7c766]">&rarr;</span>
-        </Link>
+          ↓
+        </a>
       </div>
-    </main>
+    </section>
   );
 }

@@ -101,7 +101,7 @@ function CardStage({
   return (
     <>
       <p className="mb-8 text-center font-sans text-eyebrow uppercase tracking-[0.3em] text-ink-faint">
-        Chapter 04 &mdash; The Invitation
+        The Invitation
       </p>
 
       {/* The book — the cover swings open on its left spine to reveal the page.
@@ -306,7 +306,7 @@ function FormStage() {
     return (
       <div className="py-16 text-center">
         <p className="font-sans text-eyebrow uppercase tracking-[0.3em] text-ink-faint">
-          Chapter 04 &mdash; Your Response
+          Your Response
         </p>
         <p className="mt-8 font-display text-4xl text-ink md:text-5xl">
           Thank you
@@ -319,7 +319,7 @@ function FormStage() {
   return (
     <>
       <p className="text-center font-sans text-eyebrow uppercase tracking-[0.3em] text-ink-faint">
-        Chapter 04 &mdash; Your Response
+        Your Response
       </p>
       <h2 className="mt-6 text-center font-sans text-6xl font-semibold tracking-tight text-ink md:text-7xl">
         RSVP
