@@ -6,10 +6,10 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: `${couple.names} — ${couple.issueLabel}`,
+    default: `${couple.names} — ${couple.theme}`,
     template: `%s — ${couple.names}`,
   },
-  description: `${couple.names} are getting married in ${couple.city}. Read the issue: the story, the details, and how to RSVP.`,
+  description: `${couple.names} are getting married in ${couple.city} — ${couple.theme}. Our story, the details, and how to RSVP.`,
   keywords: [
     couple.names,
     "wedding",
@@ -20,10 +20,10 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: couple.names }],
   openGraph: {
-    title: `${couple.names} — ${couple.issueLabel}`,
+    title: `${couple.names} — ${couple.theme}`,
     description: `${couple.names} are getting married in ${couple.city}.`,
     url: siteUrl,
-    siteName: `${couple.names} — ${couple.issueLabel}`,
+    siteName: couple.names,
     locale: "en_GB",
     type: "website",
     images: [
@@ -37,14 +37,14 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: `${couple.names} — ${couple.issueLabel}`,
+    title: `${couple.names} — ${couple.theme}`,
     description: `${couple.names} are getting married in ${couple.city}.`,
     images: [ogImage.src],
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#FAF8F5",
+  themeColor: "#0a0a0b",
 };
 
 export default function RootLayout({
