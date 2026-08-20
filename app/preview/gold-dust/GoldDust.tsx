@@ -254,12 +254,18 @@ export default function GoldDust() {
         style={{ backgroundImage: `url(${COVER_PHOTO})` }}
         aria-hidden
       />
-      {/* navy wash for legibility and to let the gold glow read */}
+      {/* navy duotone — tints even a bright photo deep so the gold reads */}
+      <div
+        className="absolute inset-0"
+        style={{ backgroundColor: "#123246", mixBlendMode: "multiply" }}
+        aria-hidden
+      />
+      {/* legibility gradient */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(180deg, rgba(8,20,30,0.68) 0%, rgba(8,20,30,0.42) 42%, rgba(8,20,30,0.9) 100%)",
+            "linear-gradient(180deg, rgba(8,20,30,0.72) 0%, rgba(8,20,30,0.35) 42%, rgba(8,20,30,0.92) 100%)",
         }}
         aria-hidden
       />
@@ -274,8 +280,8 @@ export default function GoldDust() {
 
       {/* minimal overlay chrome */}
       <div className="pointer-events-none absolute inset-x-0 top-0 flex items-center justify-between px-6 py-6 md:px-10">
-        <span className="font-sans text-eyebrow uppercase tracking-[0.4em] text-[#e7c766]/80">
-          The Wedding Issue
+        <span className="font-display text-lg tracking-[0.32em] text-[#e7c766]/90">
+          K &amp; S
         </span>
         <span className="font-sans text-eyebrow uppercase tracking-[0.4em] text-paper/60">
           Menu
