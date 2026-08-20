@@ -45,7 +45,7 @@ export default function Countdown({
   if (done) {
     return (
       <p
-        className={`font-serif text-xl italic text-[#e7c766] ${className}`}
+        className={`font-serif text-xl italic text-[#a8842c] ${className}`}
       >
         Today is the day.
       </p>
@@ -70,11 +70,11 @@ export default function Countdown({
       {units.map((u) => (
         <div key={u.label} className="text-center">
           <span
-            className={`block font-display tabular-nums text-[#e7c766] ${num}`}
+            className={`block font-display tabular-nums text-[#a8842c] ${num}`}
           >
             {u.value === null ? "––" : String(u.value).padStart(2, "0")}
           </span>
-          <span className="mt-2 block font-sans text-[0.6rem] uppercase tracking-eyebrow text-paper/50">
+          <span className="mt-2 block font-sans text-[0.6rem] uppercase tracking-eyebrow text-ink-faint">
             {u.label}
           </span>
         </div>

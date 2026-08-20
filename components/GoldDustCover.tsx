@@ -327,13 +327,13 @@ export default function GoldDustCover() {
           ))}
         </nav>
 
-        <a
-          href="#countdown"
-          aria-label="Scroll to the countdown"
+        <Link
+          href="/story"
+          aria-label="Begin with our story"
           className="pointer-events-auto mt-1 animate-bounce text-[#e7c766]/80"
         >
           ↓
-        </a>
+        </Link>
       </div>
     </section>
   );

@@ -51,8 +51,8 @@ export default function SectionMenu() {
         aria-expanded={open}
         className="group fixed right-5 top-5 z-50 flex flex-col items-end gap-1.5 p-2 md:right-8 md:top-7"
       >
-        <span className="block h-px w-7 bg-paper/85 transition-all group-hover:bg-[#e7c766]" />
-        <span className="block h-px w-5 bg-paper/85 transition-all group-hover:w-7 group-hover:bg-[#e7c766]" />
+        <span className="block h-px w-7 bg-[#a8842c] transition-all group-hover:bg-[#7a5f1c]" />
+        <span className="block h-px w-5 bg-[#a8842c] transition-all group-hover:w-7 group-hover:bg-[#7a5f1c]" />
       </button>
 
       {/* persistent RSVP button */}
