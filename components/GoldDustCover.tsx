@@ -11,6 +11,7 @@ const NAV = [
   { label: "Our Story", href: "#story" },
   { label: "The Wedding", href: "#details" },
   { label: "Gallery", href: "#gallery" },
+  { label: "Gifts", href: "#registry" },
   { label: "RSVP", href: "#rsvp" },
 ];
 

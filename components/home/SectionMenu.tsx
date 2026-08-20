@@ -9,6 +9,7 @@ const SECTIONS = [
   { id: "story", label: "Our Story" },
   { id: "details", label: "The Wedding" },
   { id: "gallery", label: "Gallery" },
+  { id: "registry", label: "Gifts" },
   { id: "rsvp", label: "RSVP" },
 ];
 
