@@ -1,5 +1,6 @@
+import Image from "next/image";
 import Reveal from "@/components/Reveal";
-import { couple, details, invitation } from "@/lib/content";
+import { details, invitation } from "@/lib/content";
 
 function Anchor({ className }: { className?: string }) {
   return (
@@ -23,74 +24,115 @@ function Anchor({ className }: { className?: string }) {
   );
 }
 
+type Ceremony = (typeof details.ceremonies)[number];
+
+function Ceremony({ event }: { event: Ceremony }) {
+  const imageLeft = event.imageSide === "left";
+  return (
+    <div className="grid items-center gap-8 md:grid-cols-2 md:gap-14">
+      {/* Image */}
+      <Reveal
+        className={
+          imageLeft ? "md:order-1" : "md:order-2"
+        }
+      >
+        <div className="relative aspect-[4/5] w-full overflow-hidden">
+          <Image
+            src={event.photo.src}
+            alt={event.photo.alt}
+            fill
+            sizes="(max-width: 768px) 100vw, 50vw"
+            className="object-cover"
+          />
+        </div>
+        <p className="mt-4 flex items-center gap-3 font-sans text-eyebrow uppercase tracking-eyebrow text-paper/45">
+          <span aria-hidden className="h-px w-8 bg-[#e7c766]" />
+          Event {event.no} — {event.kicker}
+        </p>
+      </Reveal>
+
+      {/* Text */}
+      <Reveal
+        delay={80}
+        className={imageLeft ? "md:order-2" : "md:order-1"}
+      >
+        <p aria-hidden className="font-display text-6xl leading-none text-paper/10 md:text-8xl">
+          {event.no}
+        </p>
+        <p className="mt-4 font-sans text-eyebrow uppercase tracking-[0.35em] text-[#e7c766]">
+          {event.kicker}
+        </p>
+        <h3 className="mt-4 font-display text-4xl font-medium leading-tight text-paper md:text-5xl">
+          {event.title}
+        </h3>
+        <p className="mt-5 max-w-md font-serif text-lg leading-relaxed text-paper/70">
+          {event.body}
+        </p>
+        {event.note ? (
+          <p className="mt-5 inline-block border border-[#e7c766]/40 px-4 py-2 font-sans text-eyebrow uppercase tracking-eyebrow text-[#e7c766]">
+            {event.note}
+          </p>
+        ) : null}
+
+        <span aria-hidden className="my-8 block h-px w-16 bg-[#e7c766]/40" />
+
+        <dl className="space-y-6">
+          {event.rows.map((row) => (
+            <div key={row.label}>
+              <dt className="font-sans text-eyebrow uppercase tracking-eyebrow text-paper/45">
+                {row.label}
+              </dt>
+              <dd className="mt-1.5 font-display text-xl text-paper">
+                {row.value}
+              </dd>
+              <dd className="mt-1 font-serif text-base leading-relaxed text-paper/60">
+                {row.detail}
+              </dd>
+            </div>
+          ))}
+        </dl>
+
+        {event.mapLink ? (
+          <a
+            href={event.mapLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-8 inline-flex items-center gap-2 font-sans text-eyebrow uppercase tracking-eyebrow text-[#e7c766] transition-colors hover:text-paper"
+          >
+            View on map <span aria-hidden>&#8599;</span>
+          </a>
+        ) : null}
+      </Reveal>
+    </div>
+  );
+}
+
 export default function DetailsSection() {
-  const day = couple.weddingDay;
   return (
     <section id="details" className="scroll-mt-4 bg-[#0d0e11] px-5 py-24 md:px-8 md:py-36">
-      <div className="mx-auto max-w-issue text-center">
-        <Reveal>
+      <div className="mx-auto max-w-issue">
+        <Reveal className="text-center">
           <Anchor className="mx-auto h-12 w-12 text-[#e7c766]" />
           <p className="mt-6 font-sans text-eyebrow uppercase tracking-[0.4em] text-[#e7c766]">
             The Wedding
           </p>
           <h2 className="mt-5 font-display text-4xl font-medium text-paper md:text-6xl">
-            Join us to celebrate
+            Three celebrations, one union
           </h2>
-        </Reveal>
-
-        <Reveal delay={60} className="mt-14">
-          <p className="font-sans text-eyebrow uppercase tracking-[0.35em] text-paper/60">
-            {day.day}
-          </p>
-          <p className="mt-4 font-display text-3xl text-paper md:text-5xl">
-            {day.date} {day.year}
-          </p>
-          <p className="mt-3 font-serif text-xl italic text-paper/70">
-            at two o&rsquo;clock in the afternoon
+          <p className="mx-auto mt-6 max-w-xl font-serif text-lg italic leading-relaxed text-paper/60">
+            From our Ghanaian roots to the church in London — we would be honoured
+            to have you with us.
           </p>
         </Reveal>
 
-        <span aria-hidden className="mx-auto my-12 block h-px w-16 bg-[#e7c766]/50" />
-
-        <Reveal delay={60}>
-          <p className="font-sans text-eyebrow uppercase tracking-[0.35em] text-[#e7c766]">
-            Venue
-          </p>
-          <p className="mt-4 font-display text-2xl text-paper md:text-3xl">
-            {invitation.venue.name}
-          </p>
-          <p className="mt-2 font-serif text-lg text-paper/75 md:text-xl">
-            {invitation.venue.detail}
-            <br />
-            37&ndash;39 Grange Park Road, Leyton · London E10 5EP
-          </p>
-          <a
-            href={details.mapLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-6 inline-flex items-center gap-3 border border-[#e7c766]/60 px-6 py-3 font-sans text-eyebrow uppercase tracking-eyebrow text-[#e7c766] transition-colors hover:bg-[#e7c766] hover:text-black"
-          >
-            View map <span aria-hidden>&rarr;</span>
-          </a>
-        </Reveal>
-
-        <div className="mt-16 grid gap-8 text-left sm:grid-cols-3 md:mt-20">
-          {details.travel.slice(0, 3).map((t, i) => (
-            <Reveal key={t.title} delay={i * 70}>
-              <div className="border-t border-paper/12 pt-5">
-                <p className="font-sans text-eyebrow uppercase tracking-eyebrow text-[#e7c766]">
-                  {t.label}
-                </p>
-                <p className="mt-2 font-display text-xl text-paper">{t.title}</p>
-                <p className="mt-2 font-serif text-base leading-relaxed text-paper/65">
-                  {t.body}
-                </p>
-              </div>
-            </Reveal>
+        <div className="mt-20 space-y-24 md:mt-28 md:space-y-36">
+          {details.ceremonies.map((event) => (
+            <Ceremony key={event.no} event={event} />
           ))}
         </div>
 
-        <Reveal className="mt-20">
+        <Reveal className="mt-24 text-center md:mt-32">
+          <span aria-hidden className="mx-auto mb-10 block h-px w-16 bg-[#e7c766]/50" />
           <p className="mx-auto max-w-2xl font-serif text-2xl italic leading-snug text-[#e7c766] md:text-3xl">
             &ldquo;{invitation.scripture}&rdquo;
           </p>

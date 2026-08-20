@@ -209,6 +209,71 @@ export const details = {
     { date: "21 Nov", event: "Dinner & toasts", time: "To follow", place: "Church premises" },
     { date: "21 Nov", event: "Dancing", time: "Till late", place: "Church premises" },
   ],
+  /** The three celebrations, in order. Drives the one-page “The Wedding”
+   *  section. Replace each `photo.src` with a real photo in /public before
+   *  launch (e.g. "/traditional.jpg"). */
+  ceremonies: [
+    {
+      no: "01",
+      kicker: "A Family Tradition",
+      title: "The Traditional Ceremony",
+      body: "Join us as we honour our Ghanaian roots with a beautiful traditional wedding ceremony. Experience the rich customs, vibrant kente cloth, and joyful celebrations of our heritage.",
+      note: "Strictly by invitation only",
+      rows: [
+        { label: "Date & Time", value: "Friday, 14th November 2026", detail: "9:00 AM" },
+        { label: "Venue", value: "Akuapem Presbytery Centre", detail: "Akropong Akuapem · Eastern Region, Ghana" },
+        { label: "Dress Code", value: "Traditional Ghanaian Attire", detail: "Kente, African print, or traditional formal wear" },
+      ],
+      mapLink: "https://maps.google.com/?q=Akuapem+Presbytery+Centre+Akropong+Akuapem+Ghana",
+      photo: {
+        src: "https://picsum.photos/seed/trad-ceremony/1400/1750",
+        alt: "A traditional Ghanaian wedding celebration",
+        width: 1400,
+        height: 1750,
+      } as Photo,
+      imageSide: "right" as const,
+    },
+    {
+      no: "02",
+      kicker: "A Sacred Union",
+      title: "The White Wedding",
+      body: "We invite you to witness the blessing of our marriage in a beautiful church ceremony — a moment of faith, love, and the beginning of our forever.",
+      note: "",
+      rows: [
+        { label: "Date & Time", value: "Saturday, 21st November 2026", detail: "2:00 PM · please arrive by 1:30" },
+        { label: "Venue", value: "Presbyterian Church of Ghana", detail: "Revival Congregation · 37–39 Grange Park Road, Leyton, London E10 5EP" },
+        { label: "Dress Code", value: "Formal / Cocktail Attire", detail: "Elegant dresses and suits in soft, celebratory colours" },
+      ],
+      mapLink: "https://maps.google.com/?q=Presbyterian+Church+of+Ghana+37-39+Grange+Park+Road+Leyton+E10+5EP",
+      photo: {
+        src: "https://picsum.photos/seed/white-wedding/1400/1750",
+        alt: "A church set for a wedding ceremony",
+        width: 1400,
+        height: 1750,
+      } as Photo,
+      imageSide: "left" as const,
+    },
+    {
+      no: "03",
+      kicker: "A Toast to Forever",
+      title: "The Reception",
+      body: "Once the vows are said, stay right where the celebration begins. Join us for food, drinks, and a long, lingering toast to forever with the people we love most — no onward travel needed.",
+      note: "",
+      rows: [
+        { label: "Date & Time", value: "Saturday, 21st November 2026", detail: "Immediately after the ceremony" },
+        { label: "Venue", value: "At the church premises", detail: "Revival Congregation · Leyton, London" },
+        { label: "Dress Code", value: "Same as the service", detail: "No need to change — carry it straight through" },
+      ],
+      mapLink: "https://maps.google.com/?q=Presbyterian+Church+of+Ghana+37-39+Grange+Park+Road+Leyton+E10+5EP",
+      photo: {
+        src: "https://picsum.photos/seed/reception-toast/1400/1750",
+        alt: "Cocktails ready for a celebration",
+        width: 1400,
+        height: 1750,
+      } as Photo,
+      imageSide: "right" as const,
+    },
+  ],
   mapLink: "https://maps.google.com/?q=Presbyterian+Church+of+Ghana+37-39+Grange+Park+Road+Leyton+E10+5EP",
   /** Programme PDF (host on Blob) and an optional live-stream link. */
   programme: {
