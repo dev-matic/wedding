@@ -217,6 +217,7 @@ export const details = {
       no: "01",
       kicker: "A Family Tradition",
       title: "The Traditional Ceremony",
+      target: "2026-11-14T09:00:00+00:00",
       body: "Join us as we honour our Ghanaian roots with a beautiful traditional wedding ceremony. Experience the rich customs, vibrant kente cloth, and joyful celebrations of our heritage.",
       note: "Strictly by invitation only",
       rows: [
@@ -237,6 +238,7 @@ export const details = {
       no: "02",
       kicker: "A Sacred Union",
       title: "The White Wedding",
+      target: "2026-11-21T14:00:00+00:00",
       body: "We invite you to witness the blessing of our marriage in a beautiful church ceremony — a moment of faith, love, and the beginning of our forever.",
       note: "",
       rows: [
@@ -257,6 +259,7 @@ export const details = {
       no: "03",
       kicker: "A Toast to Forever",
       title: "The Reception",
+      target: "",
       body: "Once the vows are said, stay right where the celebration begins. Join us for food, drinks, and a long, lingering toast to forever with the people we love most — no onward travel needed.",
       note: "",
       rows: [

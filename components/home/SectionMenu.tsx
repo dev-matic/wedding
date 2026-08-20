@@ -2,27 +2,32 @@
 
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { couple } from "@/lib/content";
 
-const SECTIONS = [
-  { id: "top", label: "Home" },
-  { id: "story", label: "Our Story" },
-  { id: "details", label: "The Wedding" },
-  { id: "gallery", label: "Gallery" },
-  { id: "registry", label: "Gifts" },
-  { id: "rsvp", label: "RSVP" },
+const PAGES = [
+  { href: "/", label: "Home" },
+  { href: "/story", label: "Our Story" },
+  { href: "/details", label: "The Wedding" },
+  { href: "/gallery", label: "Gallery" },
+  { href: "/registry", label: "Gifts" },
+  { href: "/rsvp", label: "RSVP" },
 ];
 
 /**
- * The one-page menu: a floating gold hamburger (always available) that opens a
+ * The site menu: a floating gold hamburger (always available) that opens a
  * full-screen black-and-gold index, plus a persistent RSVP button. Links are
- * in-page anchors, so the page scrolls smoothly to each section.
+ * real routes, so each section is its own page. Lives in the root layout, so
+ * it appears site-wide.
  */
 export default function SectionMenu() {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => setMounted(true), []);
+  useEffect(() => setOpen(false), [pathname]);
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     return () => {
@@ -51,12 +56,14 @@ export default function SectionMenu() {
       </button>
 
       {/* persistent RSVP button */}
-      <a
-        href="#rsvp"
-        className="fixed bottom-5 right-5 z-50 border border-[#e7c766]/70 bg-black/30 px-5 py-2.5 font-sans text-eyebrow uppercase tracking-eyebrow text-[#e7c766] backdrop-blur-sm transition-colors hover:bg-[#e7c766] hover:text-black md:bottom-8 md:right-8"
-      >
-        RSVP
-      </a>
+      {pathname !== "/rsvp" ? (
+        <Link
+          href="/rsvp"
+          className="fixed bottom-5 right-5 z-50 border border-[#e7c766]/70 bg-black/30 px-5 py-2.5 font-sans text-eyebrow uppercase tracking-eyebrow text-[#e7c766] backdrop-blur-sm transition-colors hover:bg-[#e7c766] hover:text-black md:bottom-8 md:right-8"
+        >
+          RSVP
+        </Link>
+      ) : null}
 
       {mounted
         ? createPortal(
@@ -78,21 +85,28 @@ export default function SectionMenu() {
               </button>
 
               <nav className="mx-auto flex min-h-screen max-w-issue flex-col justify-center px-8 md:px-12">
-                {SECTIONS.map((s, i) => (
-                  <a
-                    key={s.id}
-                    href={`#${s.id}`}
-                    onClick={() => setOpen(false)}
-                    className="group flex items-baseline gap-5 border-t border-paper/12 py-4 last:border-b md:gap-8"
-                  >
-                    <span className="w-5 text-right font-sans text-[0.62rem] tracking-widest text-[#e7c766]/60">
-                      {String(i).padStart(2, "0")}
-                    </span>
-                    <span className="font-display text-4xl text-paper transition-colors group-hover:text-[#e7c766] md:text-6xl">
-                      {s.label}
-                    </span>
-                  </a>
-                ))}
+                {PAGES.map((s, i) => {
+                  const active = pathname === s.href;
+                  return (
+                    <Link
+                      key={s.href}
+                      href={s.href}
+                      onClick={() => setOpen(false)}
+                      className="group flex items-baseline gap-5 border-t border-paper/12 py-4 last:border-b md:gap-8"
+                    >
+                      <span className="w-5 text-right font-sans text-[0.62rem] tracking-widest text-[#e7c766]/60">
+                        {String(i).padStart(2, "0")}
+                      </span>
+                      <span
+                        className={`font-display text-4xl transition-colors group-hover:text-[#e7c766] md:text-6xl ${
+                          active ? "text-[#e7c766]" : "text-paper"
+                        }`}
+                      >
+                        {s.label}
+                      </span>
+                    </Link>
+                  );
+                })}
               </nav>
 
               <div className="absolute inset-x-0 bottom-8 text-center font-sans text-eyebrow uppercase tracking-eyebrow text-paper/45">

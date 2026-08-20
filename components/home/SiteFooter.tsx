@@ -1,33 +1,34 @@
+import Link from "next/link";
 import { couple } from "@/lib/content";
 
 const LINKS = [
-  { label: "Our Story", href: "#story" },
-  { label: "The Wedding", href: "#details" },
-  { label: "Gallery", href: "#gallery" },
-  { label: "Gifts", href: "#registry" },
-  { label: "RSVP", href: "#rsvp" },
+  { label: "Our Story", href: "/story" },
+  { label: "The Wedding", href: "/details" },
+  { label: "Gallery", href: "/gallery" },
+  { label: "Gifts", href: "/registry" },
+  { label: "RSVP", href: "/rsvp" },
 ];
 
 export default function SiteFooter() {
   return (
     <footer className="border-t border-paper/10 bg-[#0a0a0b] px-5 py-16 text-center md:px-8">
-      <a
-        href="#top"
+      <Link
+        href="/"
         className="font-display text-3xl text-paper transition-colors hover:text-[#e7c766]"
       >
         {couple.partnerA} <span className="text-[#e7c766]">&amp;</span>{" "}
         {couple.partnerB}
-      </a>
+      </Link>
 
       <nav className="mt-7 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 font-sans text-eyebrow uppercase tracking-eyebrow text-paper/60">
         {LINKS.map((l) => (
-          <a
+          <Link
             key={l.href}
             href={l.href}
             className="transition-colors hover:text-[#e7c766]"
           >
             {l.label}
-          </a>
+          </Link>
         ))}
       </nav>
 
@@ -38,12 +39,12 @@ export default function SiteFooter() {
         {couple.theme}
       </p>
 
-      <a
-        href="#top"
+      <Link
+        href="/"
         className="mt-8 inline-flex items-center gap-2 font-sans text-eyebrow uppercase tracking-eyebrow text-paper/45 transition-colors hover:text-[#e7c766]"
       >
         Back to top <span aria-hidden>↑</span>
-      </a>
+      </Link>
     </footer>
   );
 }
