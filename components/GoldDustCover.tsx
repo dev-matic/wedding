@@ -1,28 +1,26 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Link from "next/link";
+import SiteMenu from "@/components/SiteMenu";
+import { couple } from "@/lib/content";
+import { chapters } from "@/lib/chapters";
 
-/** Couple's photo behind the particles. Replace with the real one: drop it in
- *  /public (e.g. /public/cover.jpg) and set COVER_PHOTO = "/cover.jpg". */
+/** Couple's photo behind the particles (black & white). */
 const COVER_PHOTO = "/cover.jpeg";
 
-const CHAPTERS = [
-  "Our Story",
-  "Details",
-  "Registry",
-  "RSVP",
-  "Gallery",
-  "FAQ",
-  "Trivia",
-];
+/** The numbered chapters, for the dotted row on the cover. */
+const NAV = chapters
+  .filter((c) => c.chapterNumber !== null)
+  .map((c) => ({ label: c.chapterLabel, href: c.href }));
 
 /**
- * PROTOTYPE — "Gold Dust" cover.
- * A field of gold particles on deep navy that morphs between K & S → the
- * anchor → the date, with cursor parallax. three.js is loaded lazily; a
- * static fallback is shown for prefers-reduced-motion / no WebGL.
+ * The cover — a field of gold particles over the couple's black & white photo,
+ * morphing between the monogram, the anchor and the date. three.js is loaded
+ * lazily; a static frame is shown for prefers-reduced-motion / no WebGL. The
+ * particle field scales to fit the viewport, so it reads on phones too.
  */
-export default function GoldDust() {
+export default function GoldDustCover() {
   const mountRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -40,33 +38,27 @@ export default function GoldDust() {
       const reduce = window.matchMedia(
         "(prefers-reduced-motion: reduce)",
       ).matches;
-
-      const width = () => mount.clientWidth;
-      const height = () => mount.clientHeight;
+      const W = () => mount.clientWidth;
+      const H = () => mount.clientHeight;
+      const isMobile = Math.min(window.innerWidth, window.innerHeight) < 640;
 
       const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(
-        60,
-        width() / height(),
-        0.1,
-        100,
-      );
+      const camera = new THREE.PerspectiveCamera(60, W() / H(), 0.1, 100);
       camera.position.z = 15;
 
       let renderer: import("three").WebGLRenderer;
       try {
         renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
       } catch {
-        return; // no WebGL — the static fallback beneath stays visible
+        return;
       }
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      renderer.setSize(width(), height());
+      renderer.setSize(W(), H());
       mount.appendChild(renderer.domElement);
       renderer.domElement.style.display = "block";
 
-      const N = 8000;
+      const N = isMobile ? 4500 : 8000;
 
-      /* ---- build morph targets by sampling shapes into point clouds ---- */
       function sample(draw: (ctx: CanvasRenderingContext2D) => void): Float32Array {
         const CW = 512;
         const CH = 256;
@@ -86,7 +78,7 @@ export default function GoldDust() {
             if (data[(y * CW + x) * 4] > 128) pts.push([x, y]);
           }
         }
-        const spread = 15;
+        const spread = 18;
         const out = new Float32Array(N * 3);
         for (let i = 0; i < N; i++) {
           const p = pts.length
@@ -111,7 +103,7 @@ export default function GoldDust() {
         sample((ctx) => {
           ctx.save();
           ctx.translate(256, 128);
-          const s = 78;
+          const s = 84;
           ctx.lineWidth = 15;
           ctx.lineCap = "round";
           ctx.lineJoin = "round";
@@ -142,13 +134,16 @@ export default function GoldDust() {
           ctx.restore();
         });
 
+      const initials = `${couple.partnerA[0]} & ${couple.partnerB[0]}`;
+      const [y, m, d] = couple.weddingDate.slice(0, 10).split("-");
+      const dateStr = `${d} · ${m} · ${y}`;
+
       const targets = [
-        textTarget("K & S", "bold 150px Georgia, serif"),
+        textTarget(initials, "bold 150px Georgia, serif"),
         anchorTarget(),
-        textTarget("21 · 11 · 2026", "bold 66px Georgia, serif"),
+        textTarget(dateStr, "bold 62px Georgia, serif"),
       ];
 
-      /* ---- particle system ---- */
       const positions = Float32Array.from(targets[0]);
       const geometry = new THREE.BufferGeometry();
       geometry.setAttribute(
@@ -156,7 +151,6 @@ export default function GoldDust() {
         new THREE.BufferAttribute(positions, 3),
       );
 
-      // soft round gold sprite
       const sprite = document.createElement("canvas");
       sprite.width = sprite.height = 64;
       const sctx = sprite.getContext("2d")!;
@@ -169,7 +163,7 @@ export default function GoldDust() {
       const texture = new THREE.CanvasTexture(sprite);
 
       const material = new THREE.PointsMaterial({
-        size: 0.17,
+        size: isMobile ? 0.14 : 0.17,
         map: texture,
         color: 0xe7c766,
         transparent: true,
@@ -179,22 +173,30 @@ export default function GoldDust() {
       });
 
       const points = new THREE.Points(geometry, material);
-      points.position.y = -0.8; // sit the gold over the darker mid band (his blazer)
+      points.position.y = -0.8;
       scene.add(points);
 
-      /* ---- interaction + animation ---- */
-      let mouseX = 0;
-      let mouseY = 0;
+      // scale the cloud so the widest shape fits the viewport width (phones!)
+      const fit = () => {
+        const vFOV = (camera.fov * Math.PI) / 180;
+        const visH = 2 * Math.tan(vFOV / 2) * camera.position.z;
+        const visW = visH * camera.aspect;
+        return Math.min(1, (visW * 0.82) / 15);
+      };
+      points.scale.setScalar(fit());
+
+      let mx = 0;
+      let my = 0;
       const onMove = (e: PointerEvent) => {
-        mouseX = (e.clientX / width()) * 2 - 1;
-        mouseY = (e.clientY / height()) * 2 - 1;
+        mx = (e.clientX / W()) * 2 - 1;
+        my = (e.clientY / H()) * 2 - 1;
       };
       window.addEventListener("pointermove", onMove);
-
       const onResize = () => {
-        camera.aspect = width() / height();
+        camera.aspect = W() / H();
         camera.updateProjectionMatrix();
-        renderer.setSize(width(), height());
+        renderer.setSize(W(), H());
+        points.scale.setScalar(fit());
       };
       window.addEventListener("resize", onResize);
 
@@ -206,13 +208,11 @@ export default function GoldDust() {
         let stage = 0;
         let last = performance.now();
         let acc = 0;
-        const HOLD = 3600; // ms per shape
-
+        const HOLD = 3600;
         const tick = (now: number) => {
           if (disposed) return;
-          const dt = now - last;
+          acc += now - last;
           last = now;
-          acc += dt;
           if (acc > HOLD) {
             acc = 0;
             stage = (stage + 1) % targets.length;
@@ -228,11 +228,8 @@ export default function GoldDust() {
             arr[ix + 2] += Math.sin(t * 1.4 + i * 0.35) * 0.0018;
           }
           posAttr.needsUpdate = true;
-
-          // gentle parallax
-          points.rotation.y += (mouseX * 0.35 - points.rotation.y) * 0.05;
-          points.rotation.x += (mouseY * 0.2 - points.rotation.x) * 0.05;
-
+          points.rotation.y += (mx * 0.35 - points.rotation.y) * 0.05;
+          points.rotation.x += (my * 0.2 - points.rotation.x) * 0.05;
           renderer.render(scene, camera);
           raf = requestAnimationFrame(tick);
         };
@@ -259,19 +256,17 @@ export default function GoldDust() {
 
   return (
     <main className="relative min-h-screen w-full overflow-hidden bg-[#0a0a0b] text-paper">
-      {/* couple's photo */}
+      {/* couple's photo (black & white) */}
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{ backgroundImage: `url(${COVER_PHOTO})` }}
         aria-hidden
       />
-      {/* neutral darken — keeps the photo black & white, just deeper */}
       <div
         className="absolute inset-0"
         style={{ backgroundColor: "rgba(0,0,0,0.30)" }}
         aria-hidden
       />
-      {/* vignette — darkens the edges (neutral) */}
       <div
         className="absolute inset-0"
         style={{
@@ -280,7 +275,6 @@ export default function GoldDust() {
         }}
         aria-hidden
       />
-      {/* legibility gradient — faces readable up top, darker band where the gold sits */}
       <div
         className="absolute inset-0"
         style={{
@@ -290,35 +284,42 @@ export default function GoldDust() {
         aria-hidden
       />
 
-      {/* three.js particles mount over the photo (transparent canvas) */}
+      {/* particles */}
       <div ref={mountRef} className="absolute inset-0" aria-hidden />
 
-      {/* static fallback / accessible content underneath the canvas */}
-      <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center text-center">
-        <h1 className="sr-only">Kwabena &amp; Sandra — 21 November 2026</h1>
+      {/* screen-reader heading */}
+      <h1 className="sr-only">
+        {couple.names} — {couple.weddingDay.date} {couple.weddingDay.year}.{" "}
+        {couple.theme}.
+      </h1>
+
+      {/* top chrome */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 flex items-center justify-between px-5 py-5 md:px-10 md:py-6">
+        <span className="font-display text-lg tracking-[0.3em] text-[#e7c766]/90">
+          {couple.partnerA[0]} &amp; {couple.partnerB[0]}
+        </span>
+        <div className="pointer-events-auto">
+          <SiteMenu tone="onDark" />
+        </div>
       </div>
 
-      {/* minimal overlay chrome */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 flex items-center justify-between px-6 py-6 md:px-10">
-        <span className="font-display text-lg tracking-[0.32em] text-[#e7c766]/90">
-          K &amp; S
-        </span>
-        <span className="font-sans text-eyebrow uppercase tracking-[0.4em] text-paper/60">
-          Menu
-        </span>
-      </div>
-
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 flex flex-col items-center gap-5 px-6 pb-8">
+      {/* bottom navigation */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 flex flex-col items-center gap-4 px-5 pb-7 md:gap-5 md:pb-9">
         <p className="font-sans text-eyebrow uppercase tracking-[0.4em] text-[#e7c766]/85">
-          Anchored in Grace
+          {couple.theme}
         </p>
 
         {/* dotted chapter row — what's inside */}
-        <nav className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5 font-sans text-[0.62rem] uppercase tracking-[0.28em] text-paper/65">
-          {CHAPTERS.map((c, i) => (
-            <span key={c} className="flex items-center gap-3">
-              <span>{c}</span>
-              {i < CHAPTERS.length - 1 ? (
+        <nav className="flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1.5 font-sans text-[0.6rem] uppercase tracking-[0.24em] text-paper/70 sm:gap-x-3 sm:text-[0.62rem] sm:tracking-[0.28em]">
+          {NAV.map((c, i) => (
+            <span key={c.href} className="flex items-center gap-2.5 sm:gap-3">
+              <Link
+                href={c.href}
+                className="pointer-events-auto transition-colors hover:text-[#e7c766]"
+              >
+                {c.label}
+              </Link>
+              {i < NAV.length - 1 ? (
                 <span aria-hidden className="text-[#e7c766]/55">
                   ·
                 </span>
@@ -327,10 +328,13 @@ export default function GoldDust() {
           ))}
         </nav>
 
-        {/* Contents button — the way in */}
-        <span className="inline-flex items-center gap-3 border border-paper/45 px-8 py-3 font-sans text-eyebrow uppercase tracking-[0.35em] text-paper/90">
+        {/* Contents — the way in */}
+        <Link
+          href="/contents"
+          className="pointer-events-auto inline-flex items-center gap-3 border border-paper/45 px-7 py-3 font-sans text-eyebrow uppercase tracking-[0.35em] text-paper/90 transition-colors hover:border-[#e7c766] hover:text-[#e7c766] md:px-8"
+        >
           Contents <span className="text-[#e7c766]">&rarr;</span>
-        </span>
+        </Link>
       </div>
     </main>
   );
