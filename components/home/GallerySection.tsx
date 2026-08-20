@@ -34,7 +34,7 @@ export default function GallerySection() {
                   sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                   priority={i < 2}
                   loading={i < 2 ? undefined : "lazy"}
-                  className="h-auto w-full grayscale transition duration-500 hover:grayscale-0"
+                  className="h-auto w-full transition duration-500 hover:scale-[1.02]"
                 />
               </div>
             </Reveal>
