@@ -1,9 +1,9 @@
-import Image from "next/image";
 import Reveal from "@/components/Reveal";
-import { gallery } from "@/lib/content";
+
+/** Gallery photos live in /public as image0.jpeg … image15.jpeg. */
+const IMAGES = Array.from({ length: 16 }, (_, i) => `/image${i}.jpeg`);
 
 export default function GallerySection() {
-  const shots = gallery.items.slice(0, 9);
   return (
     <section id="gallery" className="scroll-mt-4 bg-paper-dim px-5 py-24 md:px-8 md:py-36">
       <div className="mx-auto max-w-issue">
@@ -18,22 +18,19 @@ export default function GallerySection() {
         </Reveal>
 
         <div className="mt-14 columns-1 gap-4 sm:columns-2 lg:columns-3 [&>figure]:mb-4">
-          {shots.map((item, i) => (
+          {IMAGES.map((src, i) => (
             <Reveal
-              key={item.src}
+              key={src}
               as="figure"
               delay={(i % 3) * 80}
               className="break-inside-avoid"
             >
               <div className="overflow-hidden rounded-sm bg-black/5">
-                <Image
-                  src={item.src}
-                  alt={item.alt}
-                  width={item.width}
-                  height={item.height}
-                  sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                  priority={i < 2}
-                  loading={i < 2 ? undefined : "lazy"}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={src}
+                  alt={`Kwabena & Sandra — moment ${i + 1}`}
+                  loading={i < 3 ? "eager" : "lazy"}
                   className="h-auto w-full transition duration-500 hover:scale-[1.02]"
                 />
               </div>
