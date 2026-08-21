@@ -263,6 +263,7 @@ function CardStage({
 
 function FormStage() {
   const [attending, setAttending] = useState<"yes" | "no" | null>(null);
+  const [guests, setGuests] = useState("1");
   const [status, setStatus] = useState<"idle" | "sending" | "done" | "error">(
     "idle",
   );
@@ -276,6 +277,7 @@ function FormStage() {
       name: String(data.get("name") ?? "").trim(),
       email: String(data.get("email") ?? "").trim(),
       attending,
+      guests: attending === "yes" ? guests : "",
       note: String(data.get("note") ?? "").trim(),
     };
 
@@ -373,7 +375,7 @@ function FormStage() {
                   type="button"
                   onClick={() => setAttending(val)}
                   aria-pressed={active}
-                  className={`border px-4 py-5 font-serif text-lg transition-colors ${
+                  className={`border px-4 py-3 font-serif text-base transition-colors ${
                     active
                       ? "border-accent bg-accent/10 text-ink"
                       : "border-hairline text-ink-soft hover:border-accent-soft"
@@ -385,6 +387,26 @@ function FormStage() {
             })}
           </div>
         </div>
+
+        {attending === "yes" ? (
+          <label className="block">
+            <span className="font-sans text-eyebrow uppercase tracking-eyebrow text-ink-soft">
+              Number of Guests
+            </span>
+            <select
+              name="guests"
+              value={guests}
+              onChange={(e) => setGuests(e.target.value)}
+              className="mt-3 w-full appearance-none border border-hairline bg-paper px-4 py-3.5 font-serif text-lg text-ink outline-none focus:border-accent"
+            >
+              {[1, 2, 3, 4].map((n) => (
+                <option key={n} value={String(n)}>
+                  {n} {n === 1 ? "Guest" : "Guests"}
+                </option>
+              ))}
+            </select>
+          </label>
+        ) : null}
 
         <label className="block">
           <span className="font-sans text-eyebrow uppercase tracking-eyebrow text-ink-soft">
