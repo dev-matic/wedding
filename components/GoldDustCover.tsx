@@ -326,14 +326,6 @@ export default function GoldDustCover() {
             </span>
           ))}
         </nav>
-
-        <Link
-          href="/story"
-          aria-label="Begin with our story"
-          className="pointer-events-auto mt-1 animate-bounce text-[#e7c766]/80"
-        >
-          ↓
-        </Link>
       </div>
     </section>
   );
