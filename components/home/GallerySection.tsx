@@ -42,13 +42,13 @@ export default function GallerySection() {
           {galleryImages.map((image, i) => {
             const slot = SLOTS[i % SLOTS.length];
             return (
-              <GalleryFigure
-                key={image.src}
-                image={image}
-                col={slot.col}
-                aspect={slot.aspect}
-                priority={i < 2}
-              />
+              <Reveal key={image.src} delay={(i % 3) * 60} className={slot.col}>
+                <GalleryFigure
+                  image={image}
+                  aspect={slot.aspect}
+                  priority={i < 2}
+                />
+              </Reveal>
             );
           })}
         </div>
