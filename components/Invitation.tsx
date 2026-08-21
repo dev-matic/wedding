@@ -393,18 +393,32 @@ function FormStage() {
             <span className="font-sans text-eyebrow uppercase tracking-eyebrow text-ink-soft">
               Number of Guests
             </span>
-            <select
-              name="guests"
-              value={guests}
-              onChange={(e) => setGuests(e.target.value)}
-              className="mt-3 w-full appearance-none border border-hairline bg-paper px-4 py-3.5 font-serif text-lg text-ink outline-none focus:border-accent"
-            >
-              {[1, 2, 3, 4].map((n) => (
-                <option key={n} value={String(n)}>
-                  {n} {n === 1 ? "Guest" : "Guests"}
-                </option>
-              ))}
-            </select>
+            <div className="relative mt-3">
+              <select
+                name="guests"
+                value={guests}
+                onChange={(e) => setGuests(e.target.value)}
+                className="w-full appearance-none border border-hairline bg-paper px-4 py-3.5 pr-11 font-serif text-lg text-ink outline-none focus:border-accent"
+              >
+                {[1, 2, 3, 4].map((n) => (
+                  <option key={n} value={String(n)}>
+                    {n} {n === 1 ? "Guest" : "Guests"}
+                  </option>
+                ))}
+              </select>
+              <svg
+                viewBox="0 0 24 24"
+                aria-hidden
+                className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-soft"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M6 9l6 6 6-6" />
+              </svg>
+            </div>
           </label>
         ) : null}
 
