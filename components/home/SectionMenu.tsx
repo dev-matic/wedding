@@ -11,7 +11,7 @@ const PAGES = [
   { href: "/story", label: "Our Story" },
   { href: "/details", label: "The Wedding" },
   { href: "/gallery", label: "Gallery" },
-  { href: "/registry", label: "Gifts" },
+  { href: "/registry", label: "Registry" },
   { href: "/rsvp", label: "RSVP" },
 ];
 
