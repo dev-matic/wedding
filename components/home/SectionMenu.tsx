@@ -68,9 +68,10 @@ export default function SectionMenu() {
       {mounted
         ? createPortal(
             <div
-              className={`fixed inset-0 z-[60] bg-[#0a0a0b]/97 backdrop-blur-sm transition-opacity duration-300 ${
+              className={`fixed inset-0 z-[60] backdrop-blur-sm transition-opacity duration-300 ${
                 open ? "opacity-100" : "pointer-events-none opacity-0"
               }`}
+              style={{ backgroundColor: "rgba(10, 10, 11, 0.98)" }}
               role="dialog"
               aria-modal="true"
               aria-hidden={!open}
