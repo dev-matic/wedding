@@ -324,19 +324,17 @@ export const contacts = {
 export const registry = {
   subtitle: "Your presence is the gift. If you'd like to give more, here's where.",
   intro:
-    "We're lucky to already share a home, so more than anything we'd love your company on the day. For those who've asked, here's a cash gift toward our next chapter, a short wish list of everyday things, and a guest book to sign.",
+    "We're grateful for your presence and your support as we start a new chapter in our lives together. If you would like to give us a gift, we have a registry below where you can do so. Thank you for being part of our story.",
   /** Cash gift — given by bank transfer (no payment account needed).
    *  TODO: replace bankDetails with the couple's real account details.
    *  To switch to a honeymoon-fund link or Stripe instead, see the note in
    *  components/BankGift.tsx. */
   cashGift: {
-    currency: "£",
-    tiers: [50, 100, 250],
-    note: "Contributions go toward our honeymoon — the trip we've been dreaming up.",
+    paypal: "https://www.paypal.me/YaaAboagyewaa459",
     bankDetails: {
-      accountName: "K O Boateng & S A Oduro",
-      sortCode: "00-00-00",
-      accountNumber: "00000000",
+      accountName: "Sandra Oduro",
+      sortCode: "04-00-05",
+      accountNumber: "87816963",
       reference: "Your name",
     },
   },
