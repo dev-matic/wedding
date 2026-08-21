@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import SectionMenu from "@/components/home/SectionMenu";
 import PageHeader from "@/components/home/PageHeader";
 import DetailsSection from "@/components/home/DetailsSection";
+import ContactsSection from "@/components/home/ContactsSection";
 import SiteFooter from "@/components/home/SiteFooter";
 
 export const metadata: Metadata = { title: "The Wedding" };
@@ -12,6 +13,7 @@ export default function DetailsPage() {
       <SectionMenu />
       <PageHeader />
       <DetailsSection />
+      <ContactsSection />
       <SiteFooter />
     </main>
   );
