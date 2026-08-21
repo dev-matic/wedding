@@ -11,12 +11,10 @@ import type { GalleryImage } from "@/lib/gallery";
  */
 export default function GalleryFigure({
   image,
-  col,
   aspect,
   priority = false,
 }: {
   image: GalleryImage;
-  col: string;
   aspect: string;
   priority?: boolean;
 }) {
@@ -29,7 +27,7 @@ export default function GalleryFigure({
   }, []);
 
   return (
-    <figure className={`group ${col}`}>
+    <figure className="group">
       <div className={`relative ${aspect} overflow-hidden bg-paper-dim`}>
         {/* shimmer placeholder */}
         <div

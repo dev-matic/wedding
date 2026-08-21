@@ -65,8 +65,8 @@ export default function Reveal({
   }, []);
 
   const motion = armed
-    ? `transition-[opacity,transform] duration-500 ease-out motion-reduce:transition-none ${
-        shown ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+    ? `transition-[opacity,transform] duration-700 ease-out motion-reduce:transition-none ${
+        shown ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
       }`
     : "";
 
