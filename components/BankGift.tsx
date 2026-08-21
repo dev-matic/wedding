@@ -4,18 +4,12 @@ import { useState } from "react";
 import { registry } from "@/lib/content";
 
 /**
- * Cash gift by bank transfer — no payment account needed, so it works the
- * moment you drop in real account details (lib/content.ts → cashGift.bankDetails).
- *
- * Prefer a different method? This component is the only thing to swap:
- *  - Honeymoon fund (Prezola / Patchwork / Monzo pot): replace the details
- *    grid with a single "Open our honeymoon fund →" link.
- *  - Stripe: restore an amount picker that POSTs to a /api/gift route which
- *    creates a Stripe Checkout session, then redirect to its URL.
+ * Cash gift — two simple ways to give: PayPal, or a UK bank transfer. No
+ * suggested amounts and no on-site payment; the couple receive gifts on their
+ * own platforms. To change the details, edit lib/content.ts → cashGift.
  */
 export default function BankGift() {
-  const { currency, tiers, bankDetails } = registry.cashGift;
-  const [suggested, setSuggested] = useState<number | null>(tiers[1] ?? null);
+  const { paypal, bankDetails } = registry.cashGift;
   const [copied, setCopied] = useState(false);
 
   const detailRows: [string, string][] = [
@@ -38,34 +32,33 @@ export default function BankGift() {
 
   return (
     <div className="rounded-sm border border-hairline bg-paper p-6 md:p-8">
-      {/* Suggested amounts — a gentle steer, not a checkout */}
-      <p className="font-sans text-eyebrow uppercase tracking-eyebrow text-ink-soft">
-        A suggested amount
+      {/* PayPal */}
+      <p className="font-sans text-eyebrow uppercase tracking-eyebrow text-[#a8842c]">
+        By PayPal
       </p>
-      <div className="mt-3 grid grid-cols-3 gap-2.5">
-        {tiers.map((tier) => {
-          const active = suggested === tier;
-          return (
-            <button
-              key={tier}
-              type="button"
-              onClick={() => setSuggested(active ? null : tier)}
-              aria-pressed={active}
-              className={`border px-3 py-3 font-display text-xl transition-colors ${
-                active
-                  ? "border-accent bg-accent/10 text-ink"
-                  : "border-hairline text-ink-soft hover:border-accent-soft"
-              }`}
-            >
-              {currency}
-              {tier.toLocaleString()}
-            </button>
-          );
-        })}
+      <a
+        href={paypal}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-3 flex w-full items-center justify-center gap-2 bg-ink px-6 py-4 font-sans text-eyebrow uppercase tracking-eyebrow text-paper transition-colors hover:bg-accent"
+      >
+        Give with PayPal <span aria-hidden>&rarr;</span>
+      </a>
+
+      {/* divider */}
+      <div className="my-8 flex items-center gap-4">
+        <span aria-hidden className="h-px flex-1 bg-hairline" />
+        <span className="font-sans text-eyebrow uppercase tracking-eyebrow text-ink-faint">
+          or
+        </span>
+        <span aria-hidden className="h-px flex-1 bg-hairline" />
       </div>
 
-      {/* Bank details */}
-      <dl className="mt-6 divide-y divide-hairline border-y border-hairline">
+      {/* Bank transfer */}
+      <p className="font-sans text-eyebrow uppercase tracking-eyebrow text-[#a8842c]">
+        By bank transfer
+      </p>
+      <dl className="mt-3 divide-y divide-hairline border-y border-hairline">
         {detailRows.map(([label, value]) => (
           <div key={label} className="flex items-center justify-between gap-4 py-3">
             <dt className="font-sans text-eyebrow uppercase tracking-eyebrow text-ink-faint">
@@ -79,7 +72,7 @@ export default function BankGift() {
       <button
         type="button"
         onClick={copyDetails}
-        className="mt-6 w-full border border-ink bg-ink px-6 py-4 font-sans text-eyebrow uppercase tracking-eyebrow text-paper transition-colors hover:bg-accent hover:border-accent"
+        className="mt-5 w-full border border-ink px-6 py-3.5 font-sans text-eyebrow uppercase tracking-eyebrow text-ink transition-colors hover:bg-ink hover:text-paper"
       >
         {copied ? "Copied ✓" : "Copy bank details"}
       </button>
