@@ -8,7 +8,7 @@ export default function RegistrySection() {
       <div className="mx-auto max-w-xl">
         <Reveal className="text-center">
           <p className="font-sans text-eyebrow uppercase tracking-[0.4em] text-[#a8842c]">
-            Gifts
+            Registry
           </p>
           <h2 className="mt-5 font-display text-4xl font-medium text-ink md:text-6xl">
             Your presence is the gift
