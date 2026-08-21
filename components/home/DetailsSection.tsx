@@ -44,16 +44,13 @@ function Ceremony({ event }: { event: Ceremony }) {
         </div>
         <p className="mt-4 flex items-center gap-3 font-sans text-eyebrow uppercase tracking-eyebrow text-ink-faint">
           <span aria-hidden className="h-px w-8 bg-[#a8842c]" />
-          Event {event.no} — {event.kicker}
+          {event.kicker}
         </p>
       </Reveal>
 
       {/* Text */}
       <Reveal delay={80} className={imageLeft ? "md:order-2" : "md:order-1"}>
-        <p aria-hidden className="font-display text-6xl leading-none text-ink/10 md:text-8xl">
-          {event.no}
-        </p>
-        <p className="mt-4 font-sans text-eyebrow uppercase tracking-[0.35em] text-[#a8842c]">
+        <p className="font-sans text-eyebrow uppercase tracking-[0.35em] text-[#a8842c]">
           {event.kicker}
         </p>
         <h3 className="mt-4 font-display text-4xl font-medium leading-tight text-ink md:text-5xl">
