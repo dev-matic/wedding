@@ -227,8 +227,8 @@ export const details = {
       ],
       mapLink: "https://maps.google.com/?q=Akuapem+Presbytery+Centre+Akropong+Akuapem+Ghana",
       photo: {
-        src: "https://images.pexels.com/photos/8289296/pexels-photo-8289296.jpeg?auto=compress&cs=tinysrgb&w=1200",
-        alt: "A couple in traditional Ghanaian attire",
+        src: "/traditional.jpg",
+        alt: "A couple in traditional Ghanaian kente attire",
         width: 1200,
         height: 1500,
       } as Photo,
@@ -248,8 +248,8 @@ export const details = {
       ],
       mapLink: "https://maps.google.com/?q=Presbyterian+Church+of+Ghana+37-39+Grange+Park+Road+Leyton+E10+5EP",
       photo: {
-        src: "https://images.pexels.com/photos/12320902/pexels-photo-12320902.jpeg?auto=compress&cs=tinysrgb&w=1200",
-        alt: "Two gold wedding rings",
+        src: "/white-wedding.jpg",
+        alt: "Two wedding rings",
         width: 1200,
         height: 1500,
       } as Photo,
@@ -269,7 +269,7 @@ export const details = {
       ],
       mapLink: "https://maps.google.com/?q=Presbyterian+Church+of+Ghana+37-39+Grange+Park+Road+Leyton+E10+5EP",
       photo: {
-        src: "https://images.pexels.com/photos/6119578/pexels-photo-6119578.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        src: "/reception.jpg",
         alt: "Guests celebrating at a wedding reception",
         width: 1200,
         height: 1500,
@@ -299,6 +299,21 @@ export const details = {
       title: "Buses & black cabs",
       body: "Tap in with a contactless card on the Tube, Overground and buses. Black cabs and ride-hailing are easy to find across east London, day and night.",
     },
+  ],
+};
+
+/* ------------------------------------------------------------------ */
+/* Contacts — who to call on the day                                   */
+/* ------------------------------------------------------------------ */
+
+export const contacts = {
+  intro:
+    "Any questions on the day — the traditional ceremony or the wedding — these are the people to reach.",
+  people: [
+    { name: "Alberta", phone: "07909 070169", tel: "07909070169" },
+    { name: "Sammy", phone: "07496 710107", tel: "07496710107" },
+    { name: "Kate", phone: "05477 823020", tel: "05477823020" },
+    { name: "Faustie", phone: "024 465 6181", tel: "0244656181" },
   ],
 };
 
