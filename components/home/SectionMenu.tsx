@@ -71,7 +71,7 @@ export default function SectionMenu() {
               className={`fixed inset-0 z-[60] backdrop-blur-sm transition-opacity duration-300 ${
                 open ? "opacity-100" : "pointer-events-none opacity-0"
               }`}
-              style={{ backgroundColor: "rgba(10, 10, 11, 0.98)" }}
+              style={{ backgroundColor: "rgba(26, 35, 53, 0.985)" }}
               role="dialog"
               aria-modal="true"
               aria-hidden={!open}
