@@ -35,9 +35,12 @@ export default function SectionMenu() {
   useEffect(() => {
     const onScroll = () => {
       const doc = document.documentElement;
-      setAtBottom(
-        window.innerHeight + window.scrollY >= doc.scrollHeight - 160,
-      );
+      // Only hide on pages that actually scroll; otherwise (e.g. the cover)
+      // the button would be treated as always-at-bottom and vanish.
+      const scrollable = doc.scrollHeight - window.innerHeight > 200;
+      const nearBottom =
+        window.innerHeight + window.scrollY >= doc.scrollHeight - 160;
+      setAtBottom(scrollable && nearBottom);
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
