@@ -6,8 +6,8 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: `${couple.names} — ${couple.theme}`,
-    template: `%s — ${couple.names}`,
+    default: couple.theme,
+    template: `${couple.theme} — %s`,
   },
   description: `${couple.names} are getting married in ${couple.city} — ${couple.theme}. Our story, the details, and how to RSVP.`,
   keywords: [
