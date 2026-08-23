@@ -22,7 +22,7 @@ export const couple = {
   /** The couple's theme, printed on the invitation. */
   theme: "Anchored in Grace",
   /** The wedding day — drives the countdown. ISO 8601 with timezone. */
-  weddingDate: "2026-11-21T14:00:00+00:00",
+  weddingDate: "2026-11-21T13:00:00+00:00",
   /** The same day, split for the large stacked date on the contents page. */
   weddingDay: { day: "Saturday", date: "21 November", year: "2026" },
   city: "London, United Kingdom",
@@ -155,11 +155,11 @@ export const details = {
     {
       key: "ceremony",
       label: "The Ceremony",
-      target: "2026-11-21T14:00:00+00:00",
+      target: "2026-11-21T13:00:00+00:00",
       eyebrow: "The Ceremony",
       title: "The vows",
-      year: "2:00 PM",
-      body: "We'll say the important words at two o'clock in the afternoon. Please arrive a little early — the doors close for the ceremony, and we'd hate for you to miss the beginning.",
+      year: "1:00 PM",
+      body: "We'll say the important words at one o'clock in the afternoon. Please arrive a little early — the doors close for the ceremony, and we'd hate for you to miss the beginning.",
       photo: {
         src: "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=1400&q=80",
         alt: "A church set for a wedding ceremony",
@@ -168,7 +168,7 @@ export const details = {
         height: 933,
       } as Photo,
       cards: [
-        { label: "Date & Time", value: "Saturday 21 November 2026", detail: "2:00 PM — arrive by 1:30" },
+        { label: "Date & Time", value: "Saturday 21 November 2026", detail: "1:00 PM — arrive by 12:30" },
         { label: "Venue", value: "Presbyterian Church of Ghana", detail: "Revival Congregation · Leyton" },
         { label: "Address", value: "37–39 Grange Park Road", detail: "Leyton, London E10 5EP" },
       ],
@@ -198,13 +198,13 @@ export const details = {
     },
   ],
   strip: [
-    { label: "The Ceremony", detail: "2:00 PM · Leyton" },
+    { label: "The Ceremony", detail: "1:00 PM · Leyton" },
     { label: "The Reception", detail: "To follow · same premises" },
     { label: "Scripture", detail: "Hebrews 6:19" },
   ],
   timeline: [
-    { date: "21 Nov", event: "Guests seated", time: "1:30 PM", place: "Please arrive early" },
-    { date: "21 Nov", event: "Ceremony", time: "2:00 PM", place: "Presbyterian Church of Ghana" },
+    { date: "21 Nov", event: "Guests seated", time: "12:30 PM", place: "Please arrive early" },
+    { date: "21 Nov", event: "Ceremony", time: "1:00 PM", place: "Presbyterian Church of Ghana" },
     { date: "21 Nov", event: "Reception", time: "To follow", place: "At the church premises" },
     { date: "21 Nov", event: "Dinner & toasts", time: "To follow", place: "Church premises" },
     { date: "21 Nov", event: "Dancing", time: "Till late", place: "Church premises" },
@@ -221,7 +221,7 @@ export const details = {
       body: "Join us as we honour our Ghanaian roots with a beautiful traditional wedding ceremony. Experience the rich customs, vibrant kente cloth, and joyful celebrations of our heritage.",
       note: "Strictly by invitation only",
       rows: [
-        { label: "Date & Time", value: "Friday, 14th November 2026", detail: "9:00 AM" },
+        { label: "Date & Time", value: "Saturday, 14th November 2026", detail: "9:00 AM" },
         { label: "Venue", value: "Akuapem Presbytery Centre", detail: "Akropong Akuapem · Eastern Region, Ghana" },
         { label: "Dress Code", value: "Traditional Ghanaian Attire", detail: "Kente, African print, or traditional formal wear" },
       ],
@@ -238,11 +238,11 @@ export const details = {
       no: "02",
       kicker: "A Sacred Union",
       title: "The White Wedding",
-      target: "2026-11-21T14:00:00+00:00",
+      target: "2026-11-21T13:00:00+00:00",
       body: "We invite you to witness the blessing of our marriage in a beautiful church ceremony — a moment of faith, love, and the beginning of our forever.",
       note: "",
       rows: [
-        { label: "Date & Time", value: "Saturday, 21st November 2026", detail: "2:00 PM · please arrive by 1:30" },
+        { label: "Date & Time", value: "Saturday, 21st November 2026", detail: "1:00 PM · please arrive by 12:30" },
         { label: "Venue", value: "Presbyterian Church of Ghana", detail: "Revival Congregation · 37–39 Grange Park Road, Leyton, London E10 5EP" },
         { label: "Dress Code", value: "Formal / Cocktail Attire", detail: "Elegant dresses and suits in soft, celebratory colours" },
       ],
@@ -313,7 +313,7 @@ export const contacts = {
     { name: "Alberta", phone: "07909 070169", tel: "07909070169" },
     { name: "Sammy", phone: "07496 710107", tel: "07496710107" },
     { name: "Kate", phone: "05477 823020", tel: "05477823020" },
-    { name: "Faustie", phone: "024 465 6181", tel: "0244656181" },
+    { name: "Auntie Faustie", phone: "024 465 6181", tel: "0244656181" },
   ],
 };
 
@@ -410,7 +410,7 @@ export const invitation = {
   partnerBFull: "Aboagyewaa Oduro",
   venue: {
     name: "Presbyterian Church of Ghana",
-    time: "2:00 PM",
+    time: "1:00 PM",
     detail: "Revival Congregation, Leyton, London",
   },
   scriptureRef: "Hebrews 6:19",
