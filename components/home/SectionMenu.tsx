@@ -24,10 +24,29 @@ const PAGES = [
 export default function SectionMenu() {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [atBottom, setAtBottom] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => setMounted(true), []);
   useEffect(() => setOpen(false), [pathname]);
+
+  // Slide the floating RSVP button away near the foot of the page, so it never
+  // sits on top of the footer / last section on small screens.
+  useEffect(() => {
+    const onScroll = () => {
+      const doc = document.documentElement;
+      setAtBottom(
+        window.innerHeight + window.scrollY >= doc.scrollHeight - 160,
+      );
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, [pathname]);
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     return () => {
@@ -59,7 +78,13 @@ export default function SectionMenu() {
       {pathname !== "/rsvp" ? (
         <Link
           href="/rsvp"
-          className="fixed bottom-5 right-5 z-50 border border-[#e7c766]/70 bg-black/30 px-5 py-2.5 font-sans text-eyebrow uppercase tracking-eyebrow text-[#e7c766] backdrop-blur-sm transition-colors hover:bg-[#e7c766] hover:text-black md:bottom-8 md:right-8"
+          aria-hidden={atBottom}
+          tabIndex={atBottom ? -1 : 0}
+          className={`fixed bottom-5 right-5 z-50 border border-[#e7c766]/70 bg-black/30 px-5 py-2.5 font-sans text-eyebrow uppercase tracking-eyebrow text-[#e7c766] backdrop-blur-sm transition-all duration-300 hover:bg-[#e7c766] hover:text-black md:bottom-8 md:right-8 ${
+            atBottom
+              ? "pointer-events-none translate-y-24 opacity-0"
+              : "opacity-100"
+          }`}
         >
           RSVP
         </Link>
