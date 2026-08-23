@@ -3,10 +3,10 @@ import { NextResponse } from "next/server";
 /**
  * RSVP submission endpoint.
  *
- * This validates the payload and, for now, logs it server-side so the form
- * works end to end during the build. Before launch, wire the marked section
- * below to wherever replies should land — a Google Sheet, Airtable, Notion,
- * a database, or an email via Resend/SendGrid.
+ * Each valid reply is forwarded to a Google Sheet via a Google Apps Script
+ * web-app URL, set in the RSVP_SHEET_WEBHOOK_URL environment variable (see the
+ * setup steps in the repo/handover notes). If that variable isn't set, the
+ * reply is logged server-side instead, so the form still works end to end.
  */
 
 type RsvpPayload = {
@@ -14,8 +14,6 @@ type RsvpPayload = {
   email?: string;
   attending?: string;
   guests?: string;
-  dietary?: string;
-  song?: string;
   note?: string;
 };
 
@@ -47,19 +45,34 @@ export async function POST(request: Request) {
     );
   }
 
-  // --- Persist the reply -------------------------------------------------
-  // Replace this log with real storage/notification before launch.
-  console.log("New RSVP:", {
+  const record = {
     name,
     email,
     attending,
-    guests: data.guests ?? "",
-    dietary: data.dietary ?? "",
-    song: data.song ?? "",
-    note: data.note ?? "",
+    guests: attending === "yes" ? data.guests ?? "" : "",
+    note: data.note?.trim() ?? "",
     receivedAt: new Date().toISOString(),
-  });
-  // -----------------------------------------------------------------------
+  };
+
+  // Forward to the Google Sheet, if configured. A sheet failure must not lose
+  // the guest's reply, so we still return success and log the problem.
+  const webhook = process.env.RSVP_SHEET_WEBHOOK_URL;
+  if (webhook) {
+    try {
+      const res = await fetch(webhook, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(record),
+      });
+      if (!res.ok) {
+        console.error("RSVP sheet webhook returned status", res.status);
+      }
+    } catch (err) {
+      console.error("RSVP sheet webhook failed:", err);
+    }
+  } else {
+    console.log("New RSVP (no sheet configured):", record);
+  }
 
   const message =
     attending === "yes"
