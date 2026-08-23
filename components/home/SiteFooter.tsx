@@ -1,4 +1,5 @@
 import Link from "next/link";
+import BackToTop from "@/components/home/BackToTop";
 import { couple } from "@/lib/content";
 
 const LINKS = [
@@ -39,12 +40,7 @@ export default function SiteFooter() {
         {couple.theme}
       </p>
 
-      <Link
-        href="/"
-        className="mt-8 inline-flex items-center gap-2 font-sans text-eyebrow uppercase tracking-eyebrow text-ink-faint transition-colors hover:text-[#a8842c]"
-      >
-        Back to top <span aria-hidden>↑</span>
-      </Link>
+      <BackToTop />
     </footer>
   );
 }
