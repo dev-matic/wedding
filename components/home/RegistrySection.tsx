@@ -10,7 +10,7 @@ export default function RegistrySection() {
           <p className="font-sans text-eyebrow uppercase tracking-[0.4em] text-[#a8842c]">
             Registry
           </p>
-          <h2 className="mt-5 font-display text-4xl font-medium text-ink md:text-6xl">
+          <h2 className="mt-5 text-balance font-display text-4xl font-medium text-ink md:text-6xl">
             Your presence is the gift
           </h2>
           <p className="mx-auto mt-6 max-w-lg font-serif text-lg italic leading-relaxed text-ink-soft">
