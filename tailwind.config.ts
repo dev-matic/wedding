@@ -9,13 +9,12 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Warm off-white ground; navy "ink" so body/headings read in the
-        // couple's colour (echoes the invitation), softened for secondary text.
+        // Warm off-white ground and soft near-black ink (echoes the card stock).
         paper: "#FAF8F5",
         "paper-dim": "#F1ECE4",
-        ink: "#2E3C56",
-        "ink-soft": "#46516B",
-        "ink-faint": "#6B7791",
+        ink: "#1C1A17",
+        "ink-soft": "#4A453E",
+        "ink-faint": "#8A8378",
         // Palette drawn from the invitation: navy ink + gold, terracotta pop.
         accent: "#2E3C56", // deep navy — eyebrows, links, rules
         "accent-soft": "#BE9E52", // muted gold — decorative numerals, selection
