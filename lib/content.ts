@@ -222,10 +222,10 @@ export const details = {
       note: "Strictly by invitation only",
       rows: [
         { label: "Date & Time", value: "Saturday, 14th November 2026", detail: "9:00 AM" },
-        { label: "Venue", value: "Akuapem Presbytery Centre", detail: "Akropong Akuapem · Eastern Region, Ghana" },
+        { label: "Venue", value: "Akuapem Hospitality Center", detail: "Akropong Akuapem · Eastern Region, Ghana" },
         { label: "Dress Code", value: "Traditional Ghanaian Attire", detail: "Kente, African print, or traditional formal wear" },
       ],
-      mapLink: "https://maps.google.com/?q=Akuapem+Presbytery+Centre+Akropong+Akuapem+Ghana",
+      mapLink: "https://maps.google.com/?q=Akuapem+Hospitality+Center+Akropong+Akuapem+Ghana",
       photo: {
         src: "/traditional.jpg",
         alt: "A couple in traditional Ghanaian kente attire",
